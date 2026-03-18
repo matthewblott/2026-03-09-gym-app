@@ -1,0 +1,11 @@
+<% content_for :title, "Edit Workout" %>
+
+<section>
+  <h1>Edit workout</h1>
+
+  <%= render "form", workout: @workout %>
+
+  <nav>
+    <a href="<%= workout_path(Current.user, @workout) %>">Back to workout</a>
+  </nav>
+</section>

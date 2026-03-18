@@ -1,0 +1,30 @@
+<% content_for :title, "Workouts" %>
+
+<section>
+  <header>
+    <h1>Workouts</h1>
+    <a href="<%= new_workout_path(Current.user) %>">New workout</a>
+  </header>
+
+  <% if @workouts.any? %>
+    <ol reversed>
+      <% @workouts.each do |workout| %>
+        <li>
+          <article>
+            <a href="<%= workout_path(Current.user, workout) %>">
+              <time datetime="<%= workout.created_at.iso8601 %>">
+                <%= workout.created_at.strftime("%A %-d %B %Y, %H:%M") %>
+              </time>
+            </a>
+            <p>
+              <% exercise_count = workout&.exercises&.size %>
+              <%= exercise_count %> <%= "exercise".pluralize(exercise_count) %>
+            </p>
+          </article>
+        </li>
+      <% end %>
+    </ol>
+  <% else %>
+    <p>No workouts yet. <a href="<%= new_workout_path(Current.user) %>">Start your first one.</a></p>
+  <% end %>
+</section>

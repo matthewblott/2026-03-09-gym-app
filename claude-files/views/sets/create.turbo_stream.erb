@@ -1,0 +1,32 @@
+<%
+  sets = @exercise.sets.order(:position)
+  new_index = sets.size
+%>
+
+<turbo-stream action="replace" target="<%= dom_id(@exercise, "sets") %>">
+  <template>
+    <turbo-frame id="<%= dom_id(@exercise, "sets") %>">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Set</th>
+            <th scope="col">Reps</th>
+            <th scope="col">Weight</th>
+            <th scope="col"><span aria-label="Actions">–</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% sets.each_with_index do |set, i| %>
+            <%= render "sets/set", set: set, index: i + 1 %>
+          <% end %>
+        </tbody>
+      </table>
+    </turbo-frame>
+  </template>
+</turbo-stream>
+
+<turbo-stream action="replace" target="<%= dom_id(@exercise, "new_set") %>">
+  <template>
+    <%= render "sets/new_form", exercise: @exercise, set: ExerciseSet.new %>
+  </template>
+</turbo-stream>

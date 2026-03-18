@@ -1,0 +1,8 @@
+<form action="<%= create_exercise_path(Current.user, workout) %>" method="post" accept-charset="UTF-8">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+  <label for="exercise_name">Exercise name</label>
+  <input type="text" name="exercise[name]" id="exercise_name" placeholder="e.g. Bench press" required>
+
+  <button type="submit">Add exercise</button>
+</form>

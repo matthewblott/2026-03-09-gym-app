@@ -1,0 +1,9 @@
+<%
+  index = @exercise.exercise_sets.order(:position).index(@set) + 1
+%>
+
+<turbo-stream action="replace" target="<%= dom_id(@set) %>">
+  <template>
+    <%= render "sets/set", set: @set, index: index %>
+  </template>
+</turbo-stream>

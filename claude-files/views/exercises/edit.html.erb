@@ -1,0 +1,28 @@
+<% content_for :title, "Edit #{@exercise.name}" %>
+
+<section>
+  <h1>Edit exercise</h1>
+
+  <%= form_with model: [@session, @exercise] do |f| %>
+    <% if @exercise.errors.any? %>
+      <ul role="list">
+        <% @exercise.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <fieldset>
+      <legend>Exercise details</legend>
+
+      <label for="exercise_name">Name</label>
+      <%= f.text_field :name, id: "exercise_name", required: true %>
+    </fieldset>
+
+    <%= f.submit "Save changes" %>
+  <% end %>
+
+  <nav>
+    <a href="<%= session_path(@session) %>">Back to session</a>
+  </nav>
+</section>

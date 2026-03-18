@@ -1,2 +1,4 @@
-# Ignore storage (uploaded files in development and any SQLite databases).
-/storage/*
+node_modules
+package.json
+bun.lock
+.gitignore

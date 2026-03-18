@@ -1,0 +1,10 @@
+<article>
+  <header>
+    <h2><a href="<%= exercise_path(Current.user, exercise) %>"><%= exercise.name %></a></h2>
+    <form action="<%= destroy_exercise_path(Current.user, exercise) %>" method="post">
+      <input type="hidden" name="_method" value="delete">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <button type="submit" data-turbo-confirm="Delete this exercise?">Delete</button>
+    </form>
+  </header>
+</article>

@@ -1,0 +1,40 @@
+<% content_for :title, @workout.created_at.strftime("%-d %b %Y") %>
+
+<section>
+  <header>
+    <h1>
+      <time datetime="<%= @workout.created_at.iso8601 %>">
+        <%= @workout.created_at.strftime("%A %-d %B %Y") %>
+      </time>
+    </h1>
+    <p>
+      <time datetime="<%= @workout.created_at.iso8601 %>">
+        Started <%= @workout.created_at.strftime("%H:%M") %>
+      </time>
+    </p>
+    <nav>
+      <a href="<%= edit_workout_path(Current.user, @workout) %>">Edit</a>
+      <form action="<%= workout_path(Current.user, @workout) %>" method="post">
+        <input type="hidden" name="_method" value="delete">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <button type="submit" data-turbo-confirm="Delete this workout?">Delete</button>
+      </form>
+    </nav>
+  </header>
+
+  <%# Exercises list %>
+  <turbo-frame id="exercises">
+    <% if @workout.exercises.any? %>
+      <% @workout.exercises.each do |exercise| %>
+        <%= render "exercises/exercise", exercise: exercise %>
+      <% end %>
+    <% else %>
+      <p id="no-exercises">No exercises yet.</p>
+    <% end %>
+  </turbo-frame>
+
+  <%# Add exercise form %>
+  <turbo-frame id="new_exercise">
+    <%= render "exercises/new_form", workout: @workout, exercise: Exercise.new %>
+  </turbo-frame>
+</section>

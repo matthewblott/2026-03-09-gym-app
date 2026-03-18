@@ -1,0 +1,32 @@
+<% content_for :title, "Edit Set" %>
+
+<section>
+  <h1>Edit set</h1>
+  <p>Exercise: <strong><%= @exercise.name %></strong></p>
+
+  <%= form_with model: [@session, @exercise, @set] do |f| %>
+    <% if @set.errors.any? %>
+      <ul role="list">
+        <% @set.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <fieldset>
+      <legend>Set details</legend>
+
+      <label for="set_reps">Reps</label>
+      <%= f.number_field :reps, id: "set_reps", min: 1, required: true %>
+
+      <label for="set_weight">Weight (kg)</label>
+      <%= f.number_field :weight, id: "set_weight", min: 0, step: 0.5, required: true %>
+    </fieldset>
+
+    <%= f.submit "Save changes" %>
+  <% end %>
+
+  <nav>
+    <a href="<%= session_path(@session) %>">Back to session</a>
+  </nav>
+</section>

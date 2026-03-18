@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= content_for?(:title) ? yield(:title) : "Gym Log" %></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/" class="wordmark">GymLog</a>
+        <% if Current.user %>
+          <a href="<%= workouts_path(Current.user) %>">Workouts</a>
+          <a href="<%= session_destroy_path %>" data-turbo-method="delete">Sign out</a>
+        <% end %>
+      </nav>
+    </header>
+
+    <main>
+      <% if notice %>
+        <p role="status"><%= notice %></p>
+      <% end %>
+      <% if alert %>
+        <p role="alert"><%= alert %></p>
+      <% end %>
+
+      <%= yield %>
+    </main>
+  </body>
+</html>

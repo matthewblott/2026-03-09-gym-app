@@ -1,0 +1,42 @@
+<turbo-frame id="<%= dom_id(exercise) %>">
+  <article>
+    <header>
+      <h2><a href="<%= exercise_path(Current.user, exercise) %>"><%= exercise.name %></a></h2>
+      <nav>
+        <form action="<%= destroy_exercise_path(Current.user, exercise) %>" method="post">
+          <input type="hidden" name="_method" value="delete">
+          <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+          <button type="submit" data-turbo-confirm="Delete <%= exercise.name %>?">Delete</button>
+        </form>
+      </nav>
+    </header>
+
+    <%# Sets table %>
+    <turbo-frame id="<%= dom_id(exercise, "sets") %>">
+      <% if exercise.exercise_sets.any? %>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Set</th>
+              <th scope="col">Reps</th>
+              <th scope="col">Weight</th>
+              <th scope="col"><span aria-label="Actions">–</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% exercise.exercise_sets.order(:position).each_with_index do |set, i| %>
+              <%= render "sets/set", set: set, index: i + 1 %>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </turbo-frame>
+
+    <%# Add set form %>
+    <turbo-frame id="<%= dom_id(exercise, "new_set") %>">
+      <%= render "sets/new_form",
+            exercise: exercise,
+            set: ExerciseSet.new %>
+    </turbo-frame>
+  </article>
+</turbo-frame>
