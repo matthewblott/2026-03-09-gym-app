@@ -1,29 +1,42 @@
 class SetsController < ApplicationController
-  before_action :set_model, only: %i[ destroy ]
+  before_action :set_exercise
 
-  def create
-    @exercise = Exercise.find(params[:exercise_id])
-    @workout = @exercise.workout
-    @exercise_set = @exercise.exercise_sets.new(set_params)
-    if @exercise_set.save
-      redirect_to exercise_path(Current.user, @exercise)
-    else
-      redirect_to exercise_path(Current.user, @exercise), status: :unprocessable_entity
-    end
+  def index
+    exercise_id = params[:exercise_id] 
+    @exercise = Exercise.find(exercise_id)
+    @sets = @exercise.sets 
   end
 
-  def destroy
-    exercise_id = params[:exercise_id]
-    @exercise_set.destroy
-    redirect_to exercise_path(Current.user, exercise_id)
+  def create
+    @set = build_set
+
+    if @set.save
+      redirect_to sets_path(Current.user, @exercise)
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   private
-    def set_model 
-      @exercise_set = ExerciseSet.find_by(:id => params[:id], :exercise_id => params[:exercise_id])
+
+    def set_exercise
+      @exercise = Exercise.find(params[:exercise_id])
     end
 
-    def set_params
-      params.expect(exercise_set: [ :reps, :weight ])
+    def build_set
+      if @exercise.weights?
+        @exercise.weight_sets.build(weight_set_params)
+      else
+        @exercise.cardio_sets.build(cardio_set_params)
+      end
     end
+
+    def weight_set_params
+      params.require(:weight_set).permit(:reps, :weight)
+    end
+
+    def cardio_set_params
+      params.require(:cardio_set).permit(:duration, :distance)
+    end
+
 end

@@ -6,7 +6,7 @@
       "disable": true
     },
     "build": {
-      "disable": false
+      "disable": true
     },
     
     // Custom agents
@@ -14,7 +14,7 @@
       "disable": true
     },
     "debug": {
-      "disable": false
+      "disable": true 
     },
     "doc-writer": {
       "disable": true
@@ -30,3 +30,4 @@
     }
   }
 }
+

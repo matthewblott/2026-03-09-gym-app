@@ -1,0 +1,22 @@
+<% content_for :title, "#{@exercise.name} Sets" %>
+
+<% content_for :header_content do %>
+  <div role="group">
+    <a href="<%= exercises_path(Current.user, workout_id: @exercise.workout_id) %>" role="button">Exercises</a>
+    <a href="<%= new_set_path(Current.user) %>" role="button">New</a>
+  </div>
+<% end %>
+
+<% @sets.each do |set| %>
+  <article>
+
+    <% if @exercise.weights? %>
+      <h2><%= set.reps %></h2>
+      <h3><%= set.weight %></h3>
+    <% else %>
+      <h2><%= set.distance %></h2>
+      <h3><%= set.duration %></h3>
+    <% end %>
+
+  </article>
+<% end %>

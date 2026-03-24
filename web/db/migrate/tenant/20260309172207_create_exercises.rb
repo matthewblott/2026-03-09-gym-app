@@ -2,6 +2,7 @@ class CreateExercises < ActiveRecord::Migration[8.1]
   def change
     create_table :exercises do |t|
       t.string :name
+      t.string :exercise_type, null: false, default: "weights"
       t.references :workout, null: false, foreign_key: true
       t.timestamps
     end

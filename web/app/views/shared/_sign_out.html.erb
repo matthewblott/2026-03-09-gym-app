@@ -1,0 +1,6 @@
+<form action="<%= session_destroy_path %>" method="post" id="sign_out_form">
+  <input type="hidden" name="_method" value="delete">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+</form>
+
+<button type="submit" form="sign_out_form">Sign out</button>

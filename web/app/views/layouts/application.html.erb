@@ -16,7 +16,19 @@
   </head>
 
   <body>
+
+    <% if notice %>
+      <p role="status"><%= notice %></p>
+    <% end %>
+    <% if alert %>
+      <p role="alert"><%= alert %></p>
+    <% end %>
+
     <%= render "shared/header" %>
-    <%= yield %>
+
+    <main>
+      <%= yield %>
+    </main>
+
   </body>
 </html>

@@ -1,0 +1,16 @@
+<% content_for :title, "Exercises" %>
+
+<% content_for :header_content do %>
+  <div role="group">
+    <a href="<%= workouts_path(Current.user) %>" role="button">Workouts</a>
+    <a href="<%= new_exercise_path(Current.user, workout_id: @workout_id) %>" role="button">New</a>
+  </div>
+<% end %>
+
+<% @exercises.each do |exercise| %>
+  <article>
+    <a href="<%= sets_path(Current.user, exercise) %>">
+      <h2><%= exercise.name %></h2>
+    </a>
+  </article>
+<% end %>

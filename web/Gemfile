@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'https://gem.coop'
 
 gem 'rails', '~> 8.1.2'
 gem 'propshaft'
@@ -10,5 +10,6 @@ gem 'pagy', '~> 43.3'
 
 group :development, :test do
   gem 'debug', platforms: %i[ mri ], require: 'debug/prelude'
+  # gem 'rails_live_reload'
+  gem 'hotwire-livereload'
 end
-

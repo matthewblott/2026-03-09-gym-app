@@ -1,11 +1,8 @@
 class WorkoutsController < ApplicationController
-  before_action :set_workout, only: %i[ show edit update destroy ]
+  before_action :set_workout, only: %i[ destroy ]
 
   def index
     @workouts = Workout.order(created_at: :desc)
-  end
-
-  def show
   end
 
   def new
@@ -15,17 +12,9 @@ class WorkoutsController < ApplicationController
   def create
     @workout = Workout.new(workout_params)
     if @workout.save
-      redirect_to workout_path(Current.user, @workout)
+      redirect_to exercises_path(Current.user, workout_id: @workout.id) 
     else
       render :new, status: :unprocessable_entity
-    end
-  end
-
-  def update
-    if @workout.update(workout_params)
-      redirect_to workout_path(Current.user, @workout)
-    else
-      render :edit, status: :unprocessable_entity
     end
   end
 

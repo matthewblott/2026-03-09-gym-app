@@ -1,0 +1,14 @@
+<% content_for :title, "Settings" %>
+
+<% content_for :header_content do %>
+  <div role="group">
+    <a href="<%= workouts_path(Current.user) %>" role="button">Workouts</a>
+  </div>
+<% end %>
+
+<h2>Delete Session</h2>
+<p>
+This action is not reversible. All information related to this session will be deleted permanently.
+</p>
+
+<%= render "shared/sign_out" %>

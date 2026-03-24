@@ -1,0 +1,70 @@
+<% content_for :title, "New Set" %>
+
+<% content_for :header_content do %>
+
+  <form action="<%= create_set_path(Current.user, exercise_id: @exercise.id) %>" method="post" id="set-form">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="weight_set[exercise_id]" value="<%= @exercise.id%>">
+  </form>
+
+  <div role="group">
+    <a href="<%= sets_path(Current.user, exercise_id: @exercise.id) %>" role="button">Sets</a>
+    <button form="set-form">Save</button>
+  </div>
+
+<% end %>
+
+<% if @exercise.weights? %>
+<% else %>
+<% end %>
+
+<fieldset>
+
+  <% if @exercise.weights? %>
+    <div class="mt-xxl">
+      <input
+        type="number"
+        form="set-form"
+        name="weight_set[reps]"
+        placeholder="Reps"
+        aria-label="Reps"
+        required
+      >
+    </div>
+    <div>
+      <input
+        type="number"
+        form="set-form"
+        name="weight_set[weight]"
+        placeholder="Weight"
+        aria-label="Weight"
+        required
+      >
+    </div>
+
+  <% else %>
+
+    <div class="mt-xxl">
+      <input
+        type="number"
+        form="set-form"
+        name="cardio_set[duration]"
+        placeholder="Reps"
+        aria-label="Reps"
+        required
+      >
+    </div>
+    <div>
+      <input
+        type="number"
+        form="set-form"
+        name="cardio_set[distance]"
+        placeholder="Weight"
+        aria-label="Weight"
+        required
+      >
+    </div>
+
+  <% end %>
+
+</fieldset>

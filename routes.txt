@@ -1,7 +1,0 @@
-        user_workouts GET    /:user_id/workouts(.:format)                       workouts#index {user_id: /\d+/}
-     new_user_workout GET    /:user_id/workouts/new(.:format)                   workouts#new {user_id: /\d+/}
-  create_user_workout POST   /:user_id/workouts(.:format)                       workouts#create {user_id: /\d+/}
-         user_workout GET    /:user_id/workouts/:id(.:format)                   workouts#show {user_id: /\d+/}
-    edit_user_workout GET    /:user_id/workouts/:id/edit(.:format)              workouts#edit {user_id: /\d+/}
-  update_user_workout PATCH  /:user_id/workouts/:id(.:format)                   workouts#update {user_id: /\d+/}
- destroy_user_workout DELETE /:user_id/workouts/:id(.:format)                   workouts#destroy {user_id: /\d+/}

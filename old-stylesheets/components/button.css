@@ -1,0 +1,54 @@
+[role="group"] {
+  display: flex;
+  width: 100%;
+
+  > * {
+    flex: 1;
+  }
+}
+
+button,
+a[role="button"] {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--border-radius-pill);
+  background: blue;
+  color: white;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+
+  &:hover {
+    background: color-mix(in srgb, var(--primary-color), black 10%);
+  }
+  
+  &:disabled {
+    cursor: not-allowed;
+    background: color-mix(in srgb, var(--primary-color), white 70%);
+  }
+
+}
+
+[role="group"] {
+  display: inline-flex;
+
+  & > :is(button, a[role="button"]) {
+    border-radius: 0;
+    border-left: 0.05rem solid lightblue;
+
+    &:first-child {
+      border-top-left-radius: var(--border-radius-pill);
+      border-bottom-left-radius: var(--border-radius-pill);
+    }
+
+    &:last-child {
+      border-top-right-radius: var(--border-radius-pill);
+      border-bottom-right-radius: var(--border-radius-pill);
+    }
+
+    &:first-child:last-child {
+      border-radius: var(--border-radius-pill);
+      border-left: none;
+    }
+  }
+}
+

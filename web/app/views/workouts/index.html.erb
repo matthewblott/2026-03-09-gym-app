@@ -1,30 +1,29 @@
 <% content_for :title, "Workouts" %>
 
-<section>
-  <header>
-    <h1>Workouts</h1>
-    <a href="<%= new_workout_path(Current.user) %>">New workout</a>
-  </header>
+<% content_for :header_content do %>
 
-  <% if @workouts.any? %>
-    <ol reversed>
-      <% @workouts.each do |workout| %>
-        <li>
-          <article>
-            <a href="<%= workout_path(Current.user, workout) %>">
-              <time datetime="<%= workout.created_at.iso8601 %>">
-                <%= workout.created_at.strftime("%A %-d %B %Y, %H:%M") %>
-              </time>
-            </a>
-            <p>
-              <% exercise_count = workout&.exercises&.size %>
-              <%= exercise_count %> <%= "exercise".pluralize(exercise_count) %>
-            </p>
-          </article>
-        </li>
-      <% end %>
-    </ol>
-  <% else %>
-    <p>No workouts yet. <a href="<%= new_workout_path(Current.user) %>">Start your first one.</a></p>
-  <% end %>
-</section>
+  <div role="group">
+    <a href="<%= settings_path %>" role="button">Settings</a>
+    <button form="workout-form">New</button>
+  </div>
+
+  <form action="<%= create_workout_path(Current.user) %>" method="post" id="workout-form">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" value="<%= Time.now.iso8601 %>" name="workout[created_at]">
+  </form> 
+
+<% end %>
+
+<% @workouts.each do |workout| %>
+  <article>
+    <a href="<%= exercises_path(Current.user, workout_id: workout.id) %>">
+      <time datetime="<%= workout.created_at.iso8601 %>">
+        <%= workout.created_at.strftime("%A %-d %B %Y, %H:%M") %>
+      </time>
+    </a>
+    <p>
+      <% exercise_count = workout&.exercises&.size %>
+      <%= exercise_count %> <%= "exercise".pluralize(exercise_count) %>
+    </p>
+  </article>
+<% end %>

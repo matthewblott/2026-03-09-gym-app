@@ -1,0 +1,24 @@
+form {
+  display: contents;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+input:not([type="radio"]) {
+  padding: 0.5rem 1rem;
+  border: 0.05rem solid darkgray;
+  width: 100%;
+  border-radius: var(--border-radius-pill);
+  cursor: pointer;
+}
+
+[role="radiogroup"] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.8rem 1rem;
+}

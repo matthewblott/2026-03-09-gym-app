@@ -1,0 +1,20 @@
+:root {
+  --font-family: 'Tahoma', sans-serif;
+  --font-size: 1.2rem;
+  --text-color: black;
+  --text-color-light: white;
+  
+  --color-success: green;
+  --color-error: red;
+
+  --primary-color: blue;
+  --border-radius: 0.5rem;
+  --spacing-vertical: 1rem;
+  --spacing-horizontal: 1rem;
+  --border-radius-pill: 1.5rem;
+
+  --shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+
+  --border-width: 0.1rem;
+
+}

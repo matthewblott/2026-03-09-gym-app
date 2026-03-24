@@ -1,0 +1,8 @@
+* {
+  font-family: var(--font-family);
+  font-size: var(--font-size); 
+}
+
+h1 {
+  font-size: 1.8rem;
+}

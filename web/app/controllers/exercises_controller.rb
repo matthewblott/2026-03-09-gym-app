@@ -1,16 +1,28 @@
 class ExercisesController < ApplicationController
-  before_action :set_exercise, only: %i[ show destroy ]
+  before_action :set_exercise, only: %i[ destroy ]
+
+  def index
+    @workout_id = params[:workout_id]
+    @exercises = Exercise.where(workout_id: @workout_id)
+  end
+
+  def new
+    @workout_id = params[:workout_id]
+    @exercise = Exercise.new 
+  end
 
   def show
   end
 
   def create
-    @workout = Workout.find(params[:workout_id])
-    @exercise = @workout.exercises.new(exercise_params)
+    # @workout_id = params[:workout_id]
+    @exercise = Exercise.new(exercise_params)
+    # @exercise.workout_id = @workout_id
+
     if @exercise.save
-      redirect_to workout_path(Current.user, @workout)
+      redirect_to sets_path(Current.user, @exercise)
     else
-      redirect_to workout_path(Current.user, @workout), status: :unprocessable_entity
+      redirect_to exercises_path(Current.user, workout_id: @workout_id), status: :unprocessable_entity
     end
   end
 
@@ -28,7 +40,7 @@ class ExercisesController < ApplicationController
     end
 
     def exercise_params
-      params.expect(exercise: [ :name ])
+      params.expect(exercise: [ :name, :exercise_type, :workout_id ])
     end
 
 end
