@@ -14,7 +14,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_24_150112) do
   create_table "cardio_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.decimal "distance"
-    t.integer "duration"
+    t.integer "duration_seconds"
     t.integer "exercise_id", null: false
     t.datetime "updated_at", null: false
     t.index ["exercise_id"], name: "index_cardio_sets_on_exercise_id"

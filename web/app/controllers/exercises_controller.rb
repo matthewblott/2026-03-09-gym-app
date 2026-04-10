@@ -3,7 +3,7 @@ class ExercisesController < ApplicationController
 
   def index
     @workout_id = params[:workout_id]
-    @exercises = Exercise.where(workout_id: @workout_id)
+    @exercises = Exercise.with_averages.where(workout_id: @workout_id)
   end
 
   def new
@@ -15,12 +15,16 @@ class ExercisesController < ApplicationController
   end
 
   def create
-    # @workout_id = params[:workout_id]
     @exercise = Exercise.new(exercise_params)
-    # @exercise.workout_id = @workout_id
 
     if @exercise.save
-      redirect_to sets_path(Current.user, @exercise)
+
+      if @exercise.weights?
+        redirect_to sets_path(Current.user, @exercise)
+      else
+        redirect_to new_set_path(Current.user, @exercise)
+      end
+
     else
       redirect_to exercises_path(Current.user, workout_id: @workout_id), status: :unprocessable_entity
     end

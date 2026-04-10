@@ -14,7 +14,7 @@ a[role="button"] {
   background: blue;
   color: white;
   cursor: pointer;
-  box-shadow: var(--shadow);
+  /* box-shadow: var(--shadow); */
   text-align: center;
 
   &:hover {

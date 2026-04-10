@@ -11,7 +11,12 @@ class SetsController < ApplicationController
     @set = build_set
 
     if @set.save
-      redirect_to sets_path(Current.user, @exercise)
+      if @exercise.weights?
+        redirect_to sets_path(Current.user, @exercise)
+      else
+        redirect_to exercises_path(Current.user, workout_id: @exercise.workout_id) 
+      end
+
     else
       render :new, status: :unprocessable_entity
     end

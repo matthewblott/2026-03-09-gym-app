@@ -9,8 +9,35 @@
 
 <% @exercises.each do |exercise| %>
   <article>
-    <a href="<%= sets_path(Current.user, exercise) %>">
-      <h2><%= exercise.name %></h2>
-    </a>
+    
+    <% if exercise.weights? %>
+      <a href="<%= sets_path(Current.user, exercise) %>">
+        <h2><%= exercise&.avg_reps %></h2>
+        <h3><%= exercise&.avg_weight %></h3>
+      </a>
+
+    <% else %>
+
+      <% if exercise.sets.any? %>
+        <% # If a 'set' has been created then we don't want any more for a cardio session %>
+
+        <h2><%= exercise.name %></h2>
+        <h3>
+          <%= exercise.sets.first.distance %> 
+        </h3>
+        <h4>
+          <%= exercise.sets.first.duration %> 
+        </h4>
+      <% else %>
+
+        <% # If there aren't any 'sets' then a new one is required %>
+        <a href="<%= new_set_path(Current.user, exercise) %>">
+          <h2><%= exercise.name %></h2>
+        </a>
+
+      <% end %>
+
+    <% end %>
+
   </article>
 <% end %>

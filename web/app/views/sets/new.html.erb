@@ -8,26 +8,30 @@
   </form>
 
   <div role="group">
-    <a href="<%= sets_path(Current.user, exercise_id: @exercise.id) %>" role="button">Sets</a>
+    <% if @exercise.weights? %>
+      <a href="<%= sets_path(Current.user, exercise_id: @exercise.id) %>" role="button">Sets</a>
+    <% else %>
+      <a href="<%= exercises_path(Current.user, workout_id: @exercise.workout_id) %>" role="button">Exercises</a>
+    <% end %>
     <button form="set-form">Save</button>
   </div>
 
 <% end %>
 
-<% if @exercise.weights? %>
-<% else %>
-<% end %>
+<div class="mt-m">
+</div>
 
 <fieldset>
 
   <% if @exercise.weights? %>
-    <div class="mt-xxl">
+    <div>
+
       <input
         type="number"
         form="set-form"
-        name="weight_set[reps]"
-        placeholder="Reps"
-        aria-label="Reps"
+        name="weight_set[weight]"
+        placeholder="Weight in KG"
+        aria-label="Weight in KG"
         required
       >
     </div>
@@ -35,36 +39,38 @@
       <input
         type="number"
         form="set-form"
-        name="weight_set[weight]"
-        placeholder="Weight"
-        aria-label="Weight"
+        name="weight_set[reps]"
+        placeholder="Number of Reps"
+        aria-label="Number of Reps"
         required
       >
     </div>
 
   <% else %>
 
-    <div class="mt-xxl">
-      <input
-        type="number"
-        form="set-form"
-        name="cardio_set[duration]"
-        placeholder="Duration"
-        aria-label="Duration"
-        required
-      >
-    </div>
     <div>
       <input
         type="number"
+        step="1" min="0"
         form="set-form"
         name="cardio_set[distance]"
-        placeholder="Distance"
-        aria-label="Distance"
+        placeholder="Distance in meters"
+        aria-label="Distance in meters"
         required
       >
     </div>
 
+    <div>
+      <input
+        type="time"
+        step="1"
+        form="set-form"
+        name="cardio_set[duration]"
+        placeholder="Time in minutes"
+        aria-label="Time in minutes and seconds"
+        required
+      >
+    </div>
   <% end %>
 
 </fieldset>

@@ -13,6 +13,18 @@ body {
   }
 }
 
+.mt-m {
+  margin-top: 0.5rem;
+}
+
+.mt-l {
+  margin-top: 1rem;
+}
+
+.mt-xl {
+  margin-top: 2rem;
+}
+
 .mt-xxl {
   margin-top: 4rem;
 }

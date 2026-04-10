@@ -12,4 +12,16 @@ class Exercise < ApplicationRecord
     weights? ? weight_sets : cardio_sets
   end
 
+  scope :with_averages, -> {
+    exercises   = arel_table
+    weight_sets = WeightSet.arel_table
+
+    avg_reps   = weight_sets[:reps].average.as("avg_reps")
+    avg_weight = weight_sets[:weight].average.as("avg_weight")
+
+    left_joins(:weight_sets)
+      .select(exercises[Arel.star], avg_reps, avg_weight)
+      .group(exercises[:id])
+  }
+
 end
