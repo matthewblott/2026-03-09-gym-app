@@ -31,21 +31,21 @@ class SettingsController < ApplicationController
       render :verify, status: :unprocessable_entity and return
     end
 
-    # user = User.create!(
-    #   email: email,
-    #   otp_secret: otp_secret,
-    #   otp_enabled: true
-    # )
+    user = User.find(Current.user.id)
+    user.update!(
+      email: email,
+      otp_secret: otp_secret,
+      otp_enabled: true
+    )
 
-    # session.delete(:otp_secret)
-    # session.delete(:email)
+    cookies.delete(:device_token)
 
-    # new_session = user.sessions.create!
-    # set_session_cookie(new_session)
-    # Current.session = new_session
-    # Current.user = user
+    new_session = user.sessions.create!
+    set_session_cookie(new_session)
+    Current.session = new_session
+    Current.user = user
 
-    redirect_to workouts_path(user), notice: 'Account created. You can now sign in from any device.'
+    redirect_to workouts_path(user), notice: 'Account updated. You can now sign in from any device.'
   end
   
   private
