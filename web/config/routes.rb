@@ -50,7 +50,11 @@ Rails.application.routes.draw do
   end
 
   controller :settings do
-    get 'settings', action: :index
+    get  "settings",        action: :index
+    get  "settings/send",   action: :email,     as: :settings_email
+    post "settings/send",   action: :send_code, as: :settings_send_code
+    get  "settings/verify", action: :verify,    as: :settings_verify_code
+    post "settings/verify", action: :create,    as: :settings_create
   end
 
   controller :static_pages do
