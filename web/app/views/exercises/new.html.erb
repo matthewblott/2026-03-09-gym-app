@@ -1,57 +1,54 @@
-<% content_for :title, "New Exercise" %>
+<% content_for :title, 'New Exercise' %>
 
 <% content_for :header_content do %>
-  <form action="<%= create_exercise_path(Current.user, workout_id: @workout_id) %>" method="post" id="exercise-form">
-    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-    <input type="hidden" name="exercise[workout_id]" value="<%= @workout_id %>">
+  <form action= <%= create_exercise_path(Current.user, workout_id: params[:workout_id]) %> method=post id=exercise-form>
+    <input type=hidden name=authenticity_token value= <%= form_authenticity_token %>>
   </form>
 
-  <div role="group">
-    <a href="<%= exercises_path(Current.user, workout_id: @workout_id) %>" role="button">Exercises</a>
-    <button form="exercise-form">Save</button>
+  <div role=group>
+    <a href= <%= workout_id ? workout_path(Current.user, workout_id) : exercises_path(Current.user) %> role=button>Cancel</a>
+    <button form=exercise-form>Save</button>
   </div>
 <% end %>
 
-<div class="mt-m">
+<div class=mt-m>
 </div>
 
 <fieldset>
   <div>
     <input
-      type="text"
-      form="exercise-form"
-      id="name"
-      name="exercise[name]"
-      placeholder="Exercise name"
-      aria-label="Exercise name"
-      list="exercise-names"
+      type=text
+      form=exercise-form
+      id=name
+      name=exercise[name]
+      placeholder=Exercise name
+      aria-label=Exercise name
+      list=exercise-names
       required
     >
-    <datalist id="exercise-names">
-      <option value="Running">
-      <option value="Cycling">
-      <option value="Swimming">
-      <option value="Bench Press">
-      <option value="Squats">
+    <datalist id=exercise-names>
+      <% Exercise.pluck(:name).uniq.each do |name| %>
+        <option value= <%= name %>>
+      <% end %>
     </datalist>
   </div>
-  <div role="radiogroup">
+  <div role=radiogroup>
     <label>
       <input
-        form="exercise-form"
-        type="radio"
-        name="exercise[exercise_type]"
-        value="cardio"
+        form=exercise-form
+        type=radio
+        name=exercise[exercise_type]
+        value=cardio
         required
       >
       Cardio
     </label>
     <label>
       <input
-        form="exercise-form"
-        type="radio"
-        name="exercise[exercise_type]"
-        value="weights"
+        form=exercise-form
+        type=radio
+        name=exercise[exercise_type]
+        value=weights
       >
       Weights
     </label>

@@ -1,5 +1,5 @@
 class WorkoutsController < ApplicationController
-  before_action :set_workout, only: %i[ destroy ]
+  before_action :set_workout, only: %i[show destroy add_exercise remove_exercise exercises]
 
   def index
     @workouts = Workout.order(created_at: :desc)
@@ -12,10 +12,35 @@ class WorkoutsController < ApplicationController
   def create
     @workout = Workout.new(workout_params)
     if @workout.save
-      redirect_to exercises_path(Current.user, workout_id: @workout.id) 
+      redirect_to workout_path(Current.user, @workout)
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def show
+    @exercises = @workout.exercises
+  end
+
+  def exercises
+    @exercises = Exercise.with_averages
+  end
+
+  def add_exercise
+    @workout = Workout.find(params[:workout_id] || params[:id])
+    @exercise = Exercise.find(params[:exercise_id])
+
+    if @workout.exercises.exists?(@exercise.id)
+      redirect_to workout_path(Current.user, @workout), alert: 'Exercise already added'
+    else
+      @workout.exercises << @exercise
+      redirect_to workout_path(Current.user, @workout)
+    end
+  end
+
+  def remove_exercise
+    @workout.exercises.destroy(params[:exercise_id])
+    redirect_to workout_path(Current.user, @workout)
   end
 
   def destroy
@@ -25,12 +50,11 @@ class WorkoutsController < ApplicationController
 
   private
 
-    def set_workout
-      @workout = Workout.find(params.expect(:id))
-    end
+  def set_workout
+    @workout = Workout.find(params[:workout_id] || params[:id])
+  end
 
-    def workout_params
-      params.expect(workout: [ :created_at ])
-    end
-
+  def workout_params
+    params.expect(workout: [:created_at])
+  end
 end

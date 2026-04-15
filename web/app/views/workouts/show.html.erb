@@ -1,9 +1,10 @@
-<% content_for :title, 'Exercises' %>
+<% content_for :title, @workout.created_at.strftime('%A %-d %B %Y') %>
 
 <% content_for :header_content do %>
   <div role=group>
     <a href= <%= workouts_path(Current.user) %> role=button>Workouts</a>
-    <a href= <%= new_exercise_path(Current.user) %> role=button>New</a>
+    <a href= <%= new_exercise_path(Current.user, workout_id: @workout.id) %> role=button>New Exercise</a>
+    <a href= <%= exercises_path(Current.user) %> role=button>Add Existing</a>
   </div>
 <% end %>
 
@@ -26,12 +27,10 @@
       <% end %>
     <% end %>
 
-    <% if @workout_id %>
-      <form action= <%= add_workout_exercise_path(Current.user, @workout_id) %> method=post>
-        <input type=hidden name=authenticity_token value= <%= form_authenticity_token %>>
-        <input type=hidden name=exercise_id value= <%= exercise.id %>>
-        <button type=submit>Add to Workout</button>
-      </form>
-    <% end %>
+    <form action= <%= remove_workout_exercise_path(Current.user, @workout, exercise) %> method=post>
+      <input type=hidden name=_method value=delete>
+      <input type=hidden name=authenticity_token value= <%= form_authenticity_token %>>
+      <button type=submit>Remove</button>
+    </form>
   </article>
 <% end %>
