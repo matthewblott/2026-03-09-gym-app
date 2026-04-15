@@ -41,10 +41,10 @@ Rails.application.routes.draw do
     end
 
     controller :sets do
-      get    'exercises/:exercise_id/sets',     action: :index,   as: :sets
-      get    'exercises/:exercise_id/sets/new', action: :new,     as: :new_set
-      post   'exercises/:exercise_id/sets',     action: :create,  as: :create_set
-      delete 'exercises/:exercise_id/sets/:id', action: :destroy, as: :destroy_set
+      get    'workout-exercises/:exercise_id/sets',       action: :index,   as: :sets
+      get    'workout-exercises/:exercise_id/sets/new',   action: :new,     as: :new_set
+      post   'workout-exercises/:exercise_id/sets',       action: :create,  as: :create_set
+      delete 'workout-exercises/:exercise_id/sets/:id',   action: :destroy, as: :destroy_set
     end
   end
 
