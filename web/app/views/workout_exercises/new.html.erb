@@ -1,0 +1,59 @@
+<% content_for :title, 'New Exercise' %>
+
+<% content_for :header_content do %>
+  <form action= <%= create_workout_exercise_path(Current.user, workout_id: @workout_id) %> method=post id=workout-exercise-form>
+    <input type=hidden name=authenticity_token value= <%= form_authenticity_token %>>
+    <input type=hidden name=workout_exercise[workout_id] value= <%= @workout_id %>>
+  </form>
+
+  <div role=group>
+    <a href= <%= workout_exercises_path(Current.user, workout_id: @workout_id) %> role=button>Exercises</a>
+    <button form=workout-exercise-form>Save</button>
+  </div>
+<% end %>
+
+<div class=mt-m>
+</div>
+
+<fieldset>
+  <div>
+    <input
+      type=text
+      form=workout-exercise-form
+      id=name
+      name=workout_exercise[name]
+      placeholder=Exercise name
+      aria-label=Exercise name
+      list=exercise-names
+      required
+    >
+    <datalist id=exercise-names>
+      <option value=Running>
+      <option value=Cycling>
+      <option value=Swimming>
+      <option value=Bench Press>
+      <option value=Squats>
+    </datalist>
+  </div>
+  <div role=radiogroup>
+    <label>
+      <input
+        form=workout-exercise-form
+        type=radio
+        name=workout_exercise[exercise_type]
+        value=cardio
+        required
+      >
+      Cardio
+    </label>
+    <label>
+      <input
+        form=workout-exercise-form
+        type=radio
+        name=workout_exercise[exercise_type]
+        value=weights
+      >
+      Weights
+    </label>
+  </div>
+</fieldset>

@@ -1,0 +1,29 @@
+<% content_for :title, 'Exercises' %>
+
+<% content_for :header_content do %>
+  <div role=group>
+    <a href= <%= workouts_path(Current.user) %> role=button>Workouts</a>
+    <a href= <%= new_workout_exercise_path(Current.user, workout_id: @workout_id) %> role=button>New</a>
+  </div>
+<% end %>
+
+<% @workout_exercises.each do |workout_exercise| %>
+  <article>
+    <% if workout_exercise.weights? %>
+      <a href= <%= sets_path(Current.user, workout_exercise) %>>
+        <h2><%= workout_exercise&.avg_reps %></h2>
+        <h3><%= workout_exercise&.avg_weight %></h3>
+      </a>
+    <% else %>
+      <% if workout_exercise.sets.any? %>
+        <h2><%= workout_exercise.name %></h2>
+        <h3><%= workout_exercise.sets.first.distance %></h3>
+        <h4><%= workout_exercise.sets.first.duration %></h4>
+      <% else %>
+        <a href= <%= new_set_path(Current.user, workout_exercise) %>>
+          <h2><%= workout_exercise.name %></h2>
+        </a>
+      <% end %>
+    <% end %>
+  </article>
+<% end %>

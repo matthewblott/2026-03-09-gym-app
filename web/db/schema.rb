@@ -10,32 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_24_150112) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_15_154200) do
   create_table "cardio_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.decimal "distance"
     t.integer "duration_seconds"
-    t.integer "exercise_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["exercise_id"], name: "index_cardio_sets_on_exercise_id"
+    t.integer "workout_exercise_id", null: false
+    t.index ["workout_exercise_id"], name: "index_cardio_sets_on_workout_exercise_id"
   end
 
-  create_table "exercises", force: :cascade do |t|
+  create_table "weight_sets", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "reps"
+    t.datetime "updated_at", null: false
+    t.decimal "weight"
+    t.integer "workout_exercise_id", null: false
+    t.index ["workout_exercise_id"], name: "index_weight_sets_on_workout_exercise_id"
+  end
+
+  create_table "workout_exercises", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "exercise_type", default: "weights", null: false
     t.string "name"
     t.datetime "updated_at", null: false
     t.integer "workout_id", null: false
-    t.index ["workout_id"], name: "index_exercises_on_workout_id"
-  end
-
-  create_table "weight_sets", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "exercise_id", null: false
-    t.integer "reps"
-    t.datetime "updated_at", null: false
-    t.decimal "weight"
-    t.index ["exercise_id"], name: "index_weight_sets_on_exercise_id"
+    t.index ["workout_id"], name: "index_workout_exercises_on_workout_id"
   end
 
   create_table "workouts", force: :cascade do |t|
@@ -44,7 +44,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_24_150112) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "cardio_sets", "exercises"
-  add_foreign_key "exercises", "workouts"
-  add_foreign_key "weight_sets", "exercises"
+  add_foreign_key "cardio_sets", "workout_exercises"
+  add_foreign_key "weight_sets", "workout_exercises"
+  add_foreign_key "workout_exercises", "workouts"
 end
