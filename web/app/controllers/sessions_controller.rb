@@ -15,7 +15,7 @@ class SessionsController < EmailAuthController
     # generate_and_send_otp(email)
     send_otp(user)
 
-    redirect_to session_verify_code_path
+    redirect_to session_verify_code_path(email: email)
   end
 
   def verify

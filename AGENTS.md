@@ -1,78 +1,43 @@
-# Agent Guidelines for Gym App
+# Gym App
 
-## 🚀 Quick Start
+The Rails application lives in `web/`. All development commands must run from that directory.
 
-**Start the dev server:** `./bin/dev` (or `bundle exec rails server`)
+## Quick Start
 
-**Run setup:** `./bin/setup` (installs dependencies, prepares database, starts server)
+```
+cd web
+./bin/setup
+```
 
-**Run CI:** `./bin/ci` (runs setup with `--skip-server` flag)
+## Development
 
-## 📋 Database Architecture
+- Start server: `./bin/dev` (from web/)
+- Run CI: `./bin/ci` (from web/)
+- Setup: `./bin/setup --skip-server` (from web/)
+- Reset DB: `./bin/setup --reset` (from web/)
 
-This is a **multi-tenant Rails application** using the Apartment gem with separate databases:
+## Database
 
-### Primary Database (`primary`)
-- Stores per-tenant application data: workouts, exercises, weight_sets, cardio_sets
-- Located at: `storage/&lt;Rails.env&gt;/tenant.sqlite3`
-- Migrations path: `db/migrate/tenant`
-- Run: `rails db:migrate:primary`
+Multi-tenant setup with two SQLite databases:
+- `web/storage/<env>/tenant.sqlite3` — per-user workouts, exercises, sets
+- `web/storage/<env>/auth.sqlite3` — users, sessions
 
-### Auth Database (`auth`)
-- Stores shared authentication data: users, sessions
-- Located at: `storage/&lt;Rails.env&gt;/auth.sqlite3`
-- Migrations path: `db/migrate/auth`
-- Run: `rails db:migrate:auth`
-- Create auth migrations: `rails generate migration CreateFoo --database=auth`
+Run migrations:
+```
+cd web && bin/rails db:migrate:primary   # tenant schema
+cd web && bin/rails db:migrate:auth      # auth schema
+```
 
-Tenants are created/dropped automatically:
-- Created when a User is created: `Apartment::Tenant.create(id.to_s)`
-- Dropped when guest users sign out: `Apartment::Tenant.drop(Current.user.id.to_s)`
+Create auth migration: `cd web && rails generate migration CreateFoo --database=auth`
 
-**Models inherit from:**
-- `AuthRecord` for auth models (connects to `auth` database)
-- `ApplicationRecord` for tenant models (connects to current tenant database)
+## Architecture
 
-## 🔧 Development Commands
+- Routes scoped under `/:user_id` — tenant switching is automatic via `ApartmentPathTenant` middleware
+- `AuthRecord` — base class for auth models (connects to auth database)
+- `ApplicationRecord` — base class for tenant models (connects to current tenant)
+- Tenants created when User is created, dropped when guest signs out
+- OTP authentication via ROTP gem for email login
 
-### Database
-- `./bin/rails db:prepare` - Setup both databases
-- `./bin/rails db:migrate:primary` - Migrate tenant database
-- `./bin/rails db:migrate:auth` - Migrate auth database  
-- `./bin/rails db:reset` - Reset both databases (used with `--reset` flag in setup)
+## Full Details
 
-### Multi-tenancy
-- Tenant switching is automatic via path segments: `/:user_id/workouts`
-- Uses `ApartmentPathTenant` middleware to switch based on numeric URL segment
-- Routes are scoped under `/:user_id` for tenant isolation
-
-## 📁 Key Directories
-
-### `app/models/`
-- `AuthRecord.rb` - Base class for auth models (database: auth)
-- `ApplicationRecord.rb` - Base class for tenant models  
-- `Current.rb` - Store current user/session context
-- `User.rb`, `Session.rb` - Auth models
-- `Workout.rb`, `Exercise.rb`, `WeightSet.rb`, `CardioSet.rb` - Tenant models
-
-### `config/`
-- `database.yml` - Multi-database configuration
-- `routes.rb` - Scoped routes with `/:user_id` pattern
-- `application.rb` - Apartment middleware setup
-
-## ⚠️ Important Notes
-
-1. **Tenant Scope**: All tenant routes require `/:user_id` prefix
-2. **Auth vs Tenant**: Auth models use `AuthRecord`, tenant models use `ApplicationRecord`
-3. **Guest Users**: Guest accounts create tenants that are destroyed on sign-out
-4. **OTP Authentication**: Email login uses one-time passwords (OTP) via ROTP gem
-5. **No Testing**: No test suite configured (test agent disabled in opencode.jsonc)
-6. **Ruby Version**: Ruby 4.0.2 (specified in .ruby-version)
-7. **No Rubocop**: No linting/formatting configuration
-
-## 🛠️ Tooling
-
-- **Hotwire-LiveReload**: Development live reload
-- **Propshaft**: Asset pipeline (Rails default)
-- **Puma**: Web server
-- **SQLite3**: Database
+See `web/AGENTS.md` for complete implementation details.
