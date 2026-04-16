@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_15_154200) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_24_150112) do
   create_table "cardio_sets", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.decimal "distance"
@@ -18,6 +18,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_15_154200) do
     t.datetime "updated_at", null: false
     t.integer "workout_exercise_id", null: false
     t.index ["workout_exercise_id"], name: "index_cardio_sets_on_workout_exercise_id"
+  end
+
+  create_table "exercises", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "exercise_type", default: "weights", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
   end
 
   create_table "weight_sets", force: :cascade do |t|
@@ -31,10 +38,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_15_154200) do
 
   create_table "workout_exercises", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.integer "exercise_id", null: false
     t.string "exercise_type", default: "weights", null: false
     t.string "name"
     t.datetime "updated_at", null: false
     t.integer "workout_id", null: false
+    t.index ["exercise_id"], name: "index_workout_exercises_on_exercise_id"
     t.index ["workout_id"], name: "index_workout_exercises_on_workout_id"
   end
 
@@ -46,5 +55,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_15_154200) do
 
   add_foreign_key "cardio_sets", "workout_exercises"
   add_foreign_key "weight_sets", "workout_exercises"
+  add_foreign_key "workout_exercises", "exercises"
   add_foreign_key "workout_exercises", "workouts"
 end
