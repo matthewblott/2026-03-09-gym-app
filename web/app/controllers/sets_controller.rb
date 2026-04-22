@@ -10,7 +10,7 @@ class SetsController < ApplicationController
     @set = build_set
 
     if @set.save
-      if @workout_exercise.weights?
+      if @workout_exercise.exercise.weights?
         redirect_to sets_path(Current.user, @workout_exercise)
       else
         redirect_to workout_exercises_path(Current.user, workout_id: @workout_exercise.workout_id)
@@ -27,7 +27,7 @@ class SetsController < ApplicationController
   end
 
   def build_set
-    if @workout_exercise.weights?
+    if @workout_exercise.exercise.weights?
       @workout_exercise.weight_sets.build(weight_set_params)
     else
       @workout_exercise.cardio_sets.build(cardio_set_params)

@@ -1,0 +1,50 @@
+<% content_for :title, 'New Exercise' %>
+
+<% content_for :header_content do %>
+  <form action= <%= create_exercise_path(Current.user) %> method=post id=exercise-form>
+    <input type=hidden name=authenticity_token value= <%= form_authenticity_token %>>
+  </form>
+
+  <div role=group>
+    <a href= <%= exercises_path(Current.user) %> role=button>Exercises</a>
+    <button form=exercise-form>Save</button>
+  </div>
+<% end %>
+
+<div class=mt-m>
+</div>
+
+<fieldset>
+  <div>
+    <input
+      type="text"
+      form="exercise-form"
+      id="name"
+      name="exercise[name]"
+      placeholder="Exercise name"
+      aria-label="Exercise name"
+      required
+    >
+  </div>
+  <div role="radiogroup">
+    <label>
+      <input
+        form="exercise-form"
+        type="radio"
+        name="exercise[exercise_type]"
+        value="cardio"
+        required
+      >
+      Cardio
+    </label>
+    <label>
+      <input
+        form="exercise-form"
+        type="radio"
+        name="exercise[exercise_type]"
+        value="weights"
+      >
+      Weights
+    </label>
+  </div>
+</fieldset>

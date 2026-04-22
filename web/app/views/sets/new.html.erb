@@ -1,68 +1,76 @@
-<% content_for :title, 'New Set' %>
+<% content_for :title, "New Set" %>
 
 <% content_for :header_content do %>
-  <form action= <%= create_set_path(Current.user, exercise_id: @workout_exercise.id) %> method=post id=set-form>
-    <input type=hidden name=authenticity_token value= <%= form_authenticity_token %>>
-    <input type=hidden name=weight_set[exercise_id] value= <%= @workout_exercise.id %>>
+
+  <form action="<%= create_set_path(Current.user, exercise_id: @workout_exercise.id) %>" method="post" id="set-form">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="weight_set[exercise_id]" value="<%= @workout_exercise.id%>">
   </form>
 
-  <div role=group>
-    <% if @workout_exercise.weights? %>
-      <a href= <%= sets_path(Current.user, exercise_id: @workout_exercise.id) %> role=button>Sets</a>
+  <div role="group">
+    <% if @workout_exercise.exercise.weights? %>
+      <a href="<%= sets_path(Current.user, exercise_id: @workout_exercise.id) %>" role="button">Sets</a>
     <% else %>
-      <a href= <%= workout_exercises_path(Current.user, workout_id: @workout_exercise.workout_id) %> role=button>Exercises</a>
+      <a href="<%= exercises_path(Current.user, workout_id: @workout_exercise.workout_id) %>" role="button">Exercises</a>
     <% end %>
-    <button form=set-form>Save</button>
+    <button form="set-form">Save</button>
   </div>
+
 <% end %>
 
-<div class=mt-m>
+<div class="mt-m">
 </div>
 
 <fieldset>
-  <% if @workout_exercise.weights? %>
+
+  <% if @workout_exercise.exercise.weights? %>
     <div>
+
       <input
-        type=number
-        form=set-form
-        name=weight_set[weight]
-        placeholder=Weight in KG
-        aria-label=Weight in KG
+        type="number"
+        form="set-form"
+        name="weight_set[weight]"
+        placeholder="Weight in KG"
+        aria-label="Weight in KG"
         required
       >
     </div>
     <div>
       <input
-        type=number
-        form=set-form
-        name=weight_set[reps]
-        placeholder=Number of Reps
-        aria-label=Number of Reps
+        type="number"
+        form="set-form"
+        name="weight_set[reps]"
+        placeholder="Number of Reps"
+        aria-label="Number of Reps"
         required
       >
     </div>
+
   <% else %>
+
     <div>
       <input
-        type=number
-        step=1 min=0
-        form=set-form
-        name=cardio_set[distance]
-        placeholder=Distance in meters
-        aria-label=Distance in meters
+        type="number"
+        step="1" min="0"
+        form="set-form"
+        name="cardio_set[distance]"
+        placeholder="Distance in meters"
+        aria-label="Distance in meters"
         required
       >
     </div>
+
     <div>
       <input
-        type=time
-        step=1
-        form=set-form
-        name=cardio_set[duration]
-        placeholder=Time in minutes
-        aria-label=Time in minutes and seconds
+        type="time"
+        step="1"
+        form="set-form"
+        name="cardio_set[duration]"
+        placeholder="Time in minutes"
+        aria-label="Time in minutes and seconds"
         required
       >
     </div>
   <% end %>
+
 </fieldset>

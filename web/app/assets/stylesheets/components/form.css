@@ -22,3 +22,11 @@ input:not([type="radio"]) {
   gap: 0.25rem;
   padding: 0.8rem 1rem;
 }
+
+select {
+  padding: 0.5rem 1rem;
+  border: 0.05rem solid darkgray;
+  width: 100%;
+  border-radius: var(--border-radius-pill);
+  cursor: pointer;
+}

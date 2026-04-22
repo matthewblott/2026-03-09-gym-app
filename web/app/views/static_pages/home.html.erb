@@ -1,6 +1,5 @@
 <% content_for :title, "Home" %>
 
-
 <% unless is_signed_in? %>
 
   <form action="<%= guest_session_create_path %>" method="post" id="sign_in_form">

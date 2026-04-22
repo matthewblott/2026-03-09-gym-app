@@ -11,6 +11,6 @@ class WeightSet < ApplicationRecord
   def exercise_must_be_weights
     return unless workout_exercise
 
-    errors.add(:base, 'can only be added to a weights exercise') unless workout_exercise.weights?
+    errors.add(:base, 'can only be added to a weights exercise') unless workout_exercise.exercise.weights?
   end
 end

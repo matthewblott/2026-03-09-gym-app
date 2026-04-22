@@ -1,10 +1,6 @@
 <% content_for :title, 'New Exercise' %>
 
 <% content_for :header_content do %>
-  <form action= <%= create_workout_exercise_path(Current.user, workout_id: @workout_id) %> method=post id=workout-exercise-form>
-    <input type=hidden name=authenticity_token value= <%= form_authenticity_token %>>
-    <input type=hidden name=workout_exercise[workout_id] value= <%= @workout_id %>>
-  </form>
 
   <div role=group>
     <a href= <%= workout_exercises_path(Current.user, workout_id: @workout_id) %> role=button>Exercises</a>
@@ -15,45 +11,74 @@
 <div class=mt-m>
 </div>
 
-<fieldset>
-  <div>
-    <input
-      type=text
-      form=workout-exercise-form
-      id=name
-      name=workout_exercise[name]
-      placeholder=Exercise name
-      aria-label=Exercise name
-      list=exercise-names
-      required
-    >
-    <datalist id=exercise-names>
-      <option value=Running>
-      <option value=Cycling>
-      <option value=Swimming>
-      <option value=Bench Press>
-      <option value=Squats>
-    </datalist>
-  </div>
-  <div role=radiogroup>
+<form action="<%= create_workout_exercise_path(Current.user, workout_id: @workout_id) %>" method="post" id="workout-exercise-form">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="workout_exercise[workout_id]" value="<%= @workout_id %>">
+  
+  <fieldset>
     <label>
-      <input
-        form=workout-exercise-form
-        type=radio
-        name=workout_exercise[exercise_type]
-        value=cardio
-        required
-      >
-      Cardio
+      <input type="radio" name="exercise_mode" value="existing" checked>
+      Select existing
     </label>
+    
     <label>
-      <input
-        form=workout-exercise-form
-        type=radio
-        name=workout_exercise[exercise_type]
-        value=weights
-      >
-      Weights
+      <input type="radio" name="exercise_mode" value="new">
+      Create new
+    </label>
+  </fieldset>
+  
+  <div id="existing-exercise">
+    <label>
+      Exercise:
+      <select name="workout_exercise[exercise_id]">
+        <option value="">-- Select --</option>
+        <% @exercises.each do |exercise| %>
+          <option value="<%= exercise.id %>"><%= exercise.name %></option>
+        <% end %>
+      </select>
     </label>
   </div>
-</fieldset>
+  
+  <div id="new-exercise" style="display: none;">
+    <label>
+      Name:
+      <input type="text" name="exercise[name]">
+    </label>
+    
+    <label>
+      Type:
+      <select name="exercise[exercise_type]">
+        <option value="weights">Weights</option>
+        <option value="cardio">Cardio</option>
+      </select>
+    </label>
+  </div>
+  
+</form>
+
+<script>
+  const form = document.getElementById('workout-exercise-form');
+  const existingDiv = document.getElementById('existing-exercise');
+  const newDiv = document.getElementById('new-exercise');
+  const existingSelect = existingDiv.querySelector('select');
+  const nameInput = newDiv.querySelector('input[name="exercise[name]"]');
+  const typeSelect = newDiv.querySelector('select[name="exercise[exercise_type]"]');
+  
+  form.querySelectorAll('input[name="exercise_mode"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      if (e.target.value === 'existing') {
+        existingDiv.style.display = 'block';
+        newDiv.style.display = 'none';
+        existingSelect.disabled = false;
+        nameInput.disabled = true;
+        typeSelect.disabled = true;
+      } else {
+        existingDiv.style.display = 'none';
+        newDiv.style.display = 'block';
+        existingSelect.disabled = true;
+        nameInput.disabled = false;
+        typeSelect.disabled = false;
+      }
+    });
+  });
+</script>

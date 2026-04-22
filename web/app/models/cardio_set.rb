@@ -39,6 +39,6 @@ class CardioSet < ApplicationRecord
   def exercise_must_be_cardio
     return unless workout_exercise
 
-    errors.add(:base, 'can only be added to a cardio exercise') unless workout_exercise.cardio?
+    errors.add(:base, 'can only be added to a cardio exercise') unless workout_exercise.exercise.cardio?
   end
 end

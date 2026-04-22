@@ -33,6 +33,13 @@ Rails.application.routes.draw do
       delete 'workouts/:id',      action: :destroy, as: :destroy_workout
     end
 
+    controller :exercises do
+      get    'exercises',           action: :index,   as: :exercises
+      get    'exercises/new',       action: :new,     as: :new_exercise
+      post   'exercises',           action: :create,  as: :create_exercise
+      delete 'exercises/:id',       action: :destroy, as: :destroy_exercise
+    end
+
     controller :workout_exercises do
       get    'workout-exercises',           action: :index,   as: :workout_exercises
       get    'workout-exercises/new',       action: :new,     as: :new_workout_exercise
@@ -55,6 +62,7 @@ Rails.application.routes.draw do
     get  'settings/verify', action: :verify,    as: :settings_verify_code
     post 'settings/verify', action: :create,    as: :settings_create
   end
+
 
   controller :static_pages do
     get 'about', action: :about

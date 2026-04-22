@@ -1,0 +1,27 @@
+<% content_for :title, 'New Exercise' %>
+
+<% content_for :header_content do %>
+  <form action= <%= create_workout_exercise_path(Current.user, workout_id: @workout_id) %> method=post id=workout-exercise-form>
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="workout_exercise[workout_id]" value="<%= @workout_id %>">
+  </form>
+
+  <div role=group>
+    <a href= <%= workout_exercises_path(Current.user, workout_id: @workout_id) %> role=button>Exercises</a>
+    <button form=workout-exercise-form>Save</button>
+  </div>
+<% end %>
+
+<div class=mt-m>
+</div>
+
+<fieldset>
+  <div>
+    <select name="workout_exercise[exercise_id]" form="workout-exercise-form">
+      <% @exercises.each do |exercise| %>
+        <option value="<%= exercise.id %>"><%= exercise.name %></option>
+      <% end %> 
+    </select>
+
+  </div>
+</fieldset>

@@ -1,4 +1,4 @@
-<% content_for :title, @workout_exercise.name + ' Sets' %>
+<% content_for :title, @workout_exercise.exercise.name + ' Sets' %>
 
 <% content_for :header_content do %>
   <div role=group>
@@ -9,7 +9,7 @@
 
 <% @sets.each do |set| %>
   <article>
-    <% if @workout_exercise.weights? %>
+    <% if @workout_exercise.exercise.weights? %>
       <h2><%= set.reps %></h2>
       <h3><%= set.weight %></h3>
     <% else %>
