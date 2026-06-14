@@ -11,7 +11,7 @@
     <% if @workout_exercise.exercise.weights? %>
       <a href="<%= sets_path(Current.user, exercise_id: @workout_exercise.id) %>" role="button">Sets</a>
     <% else %>
-      <a href="<%= exercises_path(Current.user, workout_id: @workout_exercise.workout_id) %>" role="button">Exercises</a>
+      <a href= <%= workout_exercises_path(Current.user, workout_id: @workout_exercise.workout_id) %> role=button>Exercises</a>
     <% end %>
     <button form="set-form">Save</button>
   </div>

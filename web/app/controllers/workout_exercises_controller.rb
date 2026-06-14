@@ -13,26 +13,9 @@ class WorkoutExercisesController < ApplicationController
 
   def show; end
 
-  # def create
+  def old_create
   #   @workout_exercise = WorkoutExercise.new(workout_exercise_params)
-  #
-  #   if @workout_exercise.save
-  #
-  #     if @workout_exercise.exercise.weights?
-  #       redirect_to sets_path(Current.user, @workout_exercise)
-  #     else
-  #       redirect_to new_set_path(Current.user, @workout_exercise)
-  #     end
-  #
-  #     redirect_to workout_exercises_path(Current.user, workout_id: @workout_id)
-  #
-  #   else
-  #     redirect_to workout_exercises_path(Current.user, workout_id: @workout_id), status: :unprocessable_entity
-  #   end
-  # end
 
-
-  def create
     @workout = Workout.find(params[:workout_id])
     
     # If creating a new exercise
@@ -56,19 +39,31 @@ class WorkoutExercisesController < ApplicationController
     end
     
     if @workout_exercise.save
-      redirect_to workout_path(Current.user, @workout), notice: 'Exercise added successfully'
+  #     if @workout_exercise.exercise.weights?
+  #       redirect_to sets_path(Current.user, @workout_exercise)
+  #     else
+  #       redirect_to new_set_path(Current.user, @workout_exercise)
+  #     end
+  #
+  #     redirect_to workout_exercises_path(Current.user, workout_id: @workout_id)
+      redirect_to workout_exercises_path(Current.user, @workout), notice: 'Exercise added successfully'
     else
+  #     redirect_to workout_exercises_path(Current.user, workout_id: @workout_id), status: :unprocessable_entity
       @exercises = Exercise.all
       flash.now[:error] = @workout_exercise.errors.full_messages.join(', ')
       render :new
     end
   end
 
+  def create
+    @workout_exercise = WorkoutExercise.new(workout_exercise_params)
+  end
+
   def destroy
     @workout_exercise = WorkoutExercise.find(params[:id])
     @workout = @workout_exercise.workout
     @workout_exercise.destroy
-    redirect_to workout_path(Current.user, @workout)
+    redirect_to workout_exercises_path(Current.user, @workout)
   end
 
   private

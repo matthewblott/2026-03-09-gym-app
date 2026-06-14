@@ -11,74 +11,39 @@
 <div class=mt-m>
 </div>
 
-<form action="<%= create_workout_exercise_path(Current.user, workout_id: @workout_id) %>" method="post" id="workout-exercise-form">
+<form
+  action="<%= create_workout_exercise_path(Current.user, workout_id: @workout_id) %>"
+  method="post"
+  id="workout-exercise-form">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
   <input type="hidden" name="workout_exercise[workout_id]" value="<%= @workout_id %>">
-  
-  <fieldset>
-    <label>
-      <input type="radio" name="exercise_mode" value="existing" checked>
-      Select existing
-    </label>
-    
-    <label>
-      <input type="radio" name="exercise_mode" value="new">
-      Create new
-    </label>
-  </fieldset>
-  
-  <div id="existing-exercise">
-    <label>
-      Exercise:
-      <select name="workout_exercise[exercise_id]">
-        <option value="">-- Select --</option>
-        <% @exercises.each do |exercise| %>
-          <option value="<%= exercise.id %>"><%= exercise.name %></option>
-        <% end %>
-      </select>
-    </label>
-  </div>
-  
-  <div id="new-exercise" style="display: none;">
-    <label>
-      Name:
-      <input type="text" name="exercise[name]">
-    </label>
-    
-    <label>
-      Type:
-      <select name="exercise[exercise_type]">
-        <option value="weights">Weights</option>
-        <option value="cardio">Cardio</option>
-      </select>
-    </label>
-  </div>
-  
 </form>
-
-<script>
-  const form = document.getElementById('workout-exercise-form');
-  const existingDiv = document.getElementById('existing-exercise');
-  const newDiv = document.getElementById('new-exercise');
-  const existingSelect = existingDiv.querySelector('select');
-  const nameInput = newDiv.querySelector('input[name="exercise[name]"]');
-  const typeSelect = newDiv.querySelector('select[name="exercise[exercise_type]"]');
   
-  form.querySelectorAll('input[name="exercise_mode"]').forEach(radio => {
-    radio.addEventListener('change', (e) => {
-      if (e.target.value === 'existing') {
-        existingDiv.style.display = 'block';
-        newDiv.style.display = 'none';
-        existingSelect.disabled = false;
-        nameInput.disabled = true;
-        typeSelect.disabled = true;
-      } else {
-        existingDiv.style.display = 'none';
-        newDiv.style.display = 'block';
-        existingSelect.disabled = true;
-        nameInput.disabled = false;
-        typeSelect.disabled = false;
-      }
-    });
-  });
-</script>
+<div id="existing-exercise">
+  <label>
+    Exercise:
+
+    <select name="workout_exercise[exercise_id]" form="workout-exercise-form">
+      <option value="">-- Select --</option>
+      <% @exercises.each do |exercise| %>
+        <option value="<%= exercise.id %>"><%= exercise.name %></option>
+      <% end %>
+    </select>
+  </label>
+</div>
+  
+<div id="new-exercise">
+  <label>
+    Name:
+    <input type="text" name="exercise[name]">
+  </label>
+  
+  <label>
+    Type:
+    <select name="exercise[exercise_type]">
+      <option value="weights">Weights</option>
+      <option value="cardio">Cardio</option>
+    </select>
+  </label>
+</div>
+

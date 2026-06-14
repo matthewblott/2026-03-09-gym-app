@@ -25,3 +25,43 @@
 
   </div>
 </fieldset>
+
+
+<fieldset>
+  <label>
+    <input type="radio" name="exercise_mode" value="existing" checked>
+    Select existing
+  </label>
+  
+  <label>
+    <input type="radio" name="exercise_mode" value="new">
+    Create new
+  </label>
+</fieldset>
+
+<script>
+  const form = document.getElementById('workout-exercise-form');
+  const existingDiv = document.getElementById('existing-exercise');
+  const newDiv = document.getElementById('new-exercise');
+  const existingSelect = existingDiv.querySelector('select');
+  const nameInput = newDiv.querySelector('input[name="exercise[name]"]');
+  const typeSelect = newDiv.querySelector('select[name="exercise[exercise_type]"]');
+  
+  form.querySelectorAll('input[name="exercise_mode"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      if (e.target.value === 'existing') {
+        existingDiv.style.display = 'block';
+        newDiv.style.display = 'none';
+        existingSelect.disabled = false;
+        nameInput.disabled = true;
+        typeSelect.disabled = true;
+      } else {
+        existingDiv.style.display = 'none';
+        newDiv.style.display = 'block';
+        existingSelect.disabled = true;
+        nameInput.disabled = false;
+        typeSelect.disabled = false;
+      }
+    });
+  });
+</script>
