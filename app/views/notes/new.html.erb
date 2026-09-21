@@ -1,0 +1,39 @@
+<% content_for :title, "New Note" %>
+
+<style>
+  canvas {
+    flex: 1 1 0;   /* flex-grow: 1, flex-shrink: 1, flex-basis: 0 — replaces flex-grow: 1 */
+    min-height: 0; /* flex items default to min-height: auto (content-based); this prevents that from re-introducing a content dependency */
+    background-color: lightyellow;
+  }
+</style>
+
+<% content_for :page_controller, "note" %>
+
+<% content_for :header_controls do %>
+
+  <div role="group">
+    <button data-note-target="clear" data-action="note#clear" data-bridge-side="left" data-controller="bridge--button" disabled>Clear</button>
+    <button data-note-target="save" data-action="note#create" data-controller="bridge--button" disabled>Save</button>
+    <a role="button" href="<%= user_notes_path %>">Notes</a>
+  </div>
+
+<% end %>
+
+<canvas data-note-target="canvas"></canvas>
+
+<form id="note_form" data-turbo="true" action="<%= user_notes_path %>" method="post">
+
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input data-note-target="img" type="hidden" name="note[img]" id="note_img">
+
+  <button
+    class="hidden"
+    data-note-target="submit"
+    data-search-field-target="submit"
+    data-disable-with="Create Note"
+  >
+    Create
+  </button>
+  
+</form>

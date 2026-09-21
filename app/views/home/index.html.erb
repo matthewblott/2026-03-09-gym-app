@@ -1,0 +1,21 @@
+<% content_for :title, 'Jimlog' %>
+
+<style>
+  p {
+    text-align: center;
+  }
+</style>
+
+<% content_for :header_controls do %>
+  <div role="group">
+    <a href="<%= user_account_path %>" role="button">Account</a> 
+  </div>
+<% end %>
+
+<p>
+  Proceed to your workouts.
+</p>
+
+<a href="<%= user_workouts_path %>" role="button" class="outline">Workouts</a>
+
+<input type="hidden" value="<%= Current.user.id %>"" data-controller="authenticated">

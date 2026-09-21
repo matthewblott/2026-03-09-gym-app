@@ -1,0 +1,27 @@
+<% content_for :title, 'Workouts' %>
+
+<% content_for :header_controls do %>
+  <div role=group>
+    <a href="<%= user_home_path %>" role="button">Home</a>
+    <button form=workout-form>New</button>
+  </div>
+
+  <form action= <%= user_create_workout_path(Current.user) %> method=post id=workout-form>
+    <input type=hidden name=authenticity_token value= <%= form_authenticity_token %>>
+    <input type=hidden value= <%= Time.now.iso8601 %> name=workout[created_at]>
+  </form>
+<% end %>
+
+<% @workouts.each do |workout| %>
+  <article>
+    <a href= <%= user_workout_exercises_path(Current.user, workout_id: workout.id) %>>
+      <time datetime= <%= workout.created_at.iso8601 %>>
+        <%= workout.created_at.strftime('%A %-d %B %Y, %H:%M') %>
+      </time>
+    </a>
+    <p>
+      <% exercise_count = workout&.workout_exercises&.size %>
+      <%= exercise_count %> <%= 'exercise'.pluralize(exercise_count) %>
+    </p>
+  </article>
+<% end %>

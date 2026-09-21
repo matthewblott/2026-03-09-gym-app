@@ -1,9 +1,0 @@
-@layer
-  variables,
-  typography,
-  components
-;
-
-@import url('./base/variables.css') layer(variables);
-@import url('./base/typography.css') layer(typography);
-@import url('./components/_components.css') layer(components);

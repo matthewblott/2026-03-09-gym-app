@@ -1,0 +1,54 @@
+<% content_for :title, "Notes" %>
+
+<style>
+  .selected {
+    background-color: lightyellow;
+  }
+  [id^="note_"] {
+    cursor: pointer;  
+    cursor: default;  
+  }
+</style>
+
+<%= turbo_stream_from "image_notes_#{Current.user.id}" %>
+
+<% content_for :page_controller, "notes" %>
+
+<% content_for :header_controls do %>
+  <div role="group">
+    <a href="<%= user_home_path %>" role="button">Home</a>
+    <a href="<%= user_new_note_path %>" role="button">New</a>
+    <button
+      data-notes-target="selectAllButton"
+      data-bridge-side="left"
+      data-controller="bridge--button" 
+      data-action="notes#toggleAll">Toggle selection</button>
+    <button
+      data-notes-target="deleteButton"
+      data-controller="bridge--button"
+      data-action="notes#submitDelete"
+      disabled>Delete</button>
+  </div>
+<% end %>
+
+<form id="delete-form" action="<%= user_notes_destroy_multiple_path %>" method="post"
+      data-notes-target="form">
+  <input type="hidden" name="_method" value="delete">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+</form>
+
+<section id="<%= "user-notes-#{Current.user.id}" %>">
+
+  <% @notes.each do |note| %>
+    <%= render partial: "notes/note", locals: { user_id: Current.user.id, note: note } %>
+  <% end %>
+
+  <% if @pagy.next %>
+
+    <turbo-frame id="pagination" src="<%= user_notes_path(page: @pagy.next) %>" loading="lazy">
+      Loading more...
+    </turbo-frame>
+
+  <% end %>
+
+</section>
