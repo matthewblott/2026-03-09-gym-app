@@ -1,5 +1,44 @@
 <% content_for :title, 'Workouts' %>
 
+<style>
+  article {
+    a {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 2rem;
+      align-items: center;
+
+      div {
+        display: flex;
+        flex-direction: column;
+        h2 {
+          color: color-mix(in srgb, var(--color-primary), black 30%);
+          font-size: xx-large;
+        }
+        h3 {
+          font-size: large;
+          color: grey;
+        }
+      }
+    }
+  }
+  p {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+</style>
+
+<% icons = [
+  "icons/cycle.svg",
+  "icons/runner.svg",
+  "icons/cardio.svg",
+  "icons/dumbbell.svg"
+] %>
+
 <% content_for :header_controls do %>
   <div role=group>
     <a href="<%= user_home_path %>" role="button">Home</a>
@@ -12,16 +51,24 @@
   </form>
 <% end %>
 
-<% @workouts.each do |workout| %>
-  <article>
+<% @workouts.each_with_index do |workout, i| %>
+  <article class="pill">
+
     <a href= <%= user_workout_exercises_path(Current.user, workout_id: workout.id) %>>
-      <time datetime= <%= workout.created_at.iso8601 %>>
-        <%= workout.created_at.strftime('%A %-d %B %Y, %H:%M') %>
-      </time>
+      <div>
+        <h2>
+          <%= workout.created_at.strftime('%A') %>
+        </h2>
+        <h3>
+          <%= workout.created_at.strftime("%-d %B %Y") %> @
+          <%= workout.created_at.strftime("%H:%M") %>
+        </h3>
+      </div>
+      <img src="<%= asset_path(icons[i % icons.length]) %>"
+        alt="<%= "Workout #{i + 1}" %>"
+        width="48"
+        height="48">
     </a>
-    <p>
-      <% exercise_count = workout&.workout_exercises&.size %>
-      <%= exercise_count %> <%= 'exercise'.pluralize(exercise_count) %>
-    </p>
   </article>
+
 <% end %>

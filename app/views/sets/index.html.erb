@@ -1,5 +1,39 @@
 <% content_for :title, @workout_exercise.name + ' Sets' %>
 
+<style>
+
+  p {
+    text-align: center;
+  }
+  article {
+    padding: 0.5rem 2rem;
+    p {
+      width: 100%;
+      text-align: center;
+    }
+
+    span {
+      text-align: center;
+      &:first-of-type {
+        color: color-mix(in srgb, var(--color-primary), black 30%);
+        font-weight: bold;
+        font-size: xx-large;
+        margin-right: 0.3rem;
+      }
+      &:nth-of-type(2) {
+        font-size: x-large;
+        color: gray;
+      }
+      &:last-of-type {
+        margin-left: 0.2rem; 
+        color: grey;
+        font-weight: bold;
+        font-size: xx-large;
+      }
+    }
+  }
+</style>
+
 <% content_for :header_controls do %>
   <div role=group>
     <a href= <%= user_workout_exercises_path(Current.user, workout_id: @workout_exercise.workout_id) %> role=button>Exercises</a>
@@ -8,13 +42,29 @@
 <% end %>
 
 <% @sets.each do |set| %>
-  <article>
-    <% if @workout_exercise.weights? %>
-      <h2><%= set.reps %></h2>
-      <h3><%= set.weight %></h3>
-    <% else %>
-      <h2><%= set.distance %></h2>
-      <h3><%= set.duration %></h3>
-    <% end %>
+  <article class="pill">
+    <p>
+      <span>
+        <% if @workout_exercise.weights? %>
+          <%= set.reps %>
+        <% else %>
+          <%= set.distance %>
+        <% end %>
+      </span>
+      <span>
+        <% if @workout_exercise.weights? %>
+          x
+        <% else %>
+          in
+        <% end %>
+      </span>
+      <span>
+        <% if @workout_exercise.weights? %>
+          <%= set.weight %>
+        <% else %>
+          <%= set.duration %>
+        <% end %>
+      </span>
+    </p>
   </article>
 <% end %>

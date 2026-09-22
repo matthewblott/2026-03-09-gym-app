@@ -1,5 +1,33 @@
 <% content_for :title, 'Exercises' %>
 
+<style>
+  p {
+    text-align: center;
+  }
+  article {
+    a {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 2rem;
+      align-items: center;
+
+      div {
+        display: flex;
+        flex-direction: column;
+        h2 {
+          color: color-mix(in srgb, var(--color-primary), black 30%);
+          font-size: xx-large;
+        }
+        h3 {
+          font-size: large;
+          color: grey;
+        }
+      }
+    }
+  }
+</style>
+
 <% content_for :header_controls do %>
   <div role=group>
     <a href= <%= user_workouts_path(Current.user) %> role=button>Workouts</a>
@@ -8,22 +36,28 @@
 <% end %>
 
 <% @workout_exercises.each do |workout_exercise| %>
-  <article>
-    <% if workout_exercise.weights? %>
-      <a href= <%= user_sets_path(Current.user, workout_exercise) %>>
-        <h2><%= workout_exercise&.avg_reps %></h2>
-        <h3><%= workout_exercise&.avg_weight %></h3>
-      </a>
-    <% else %>
-      <% if workout_exercise.sets.any? %>
+  <article class="pill">
+    <a href="<%= user_sets_path(Current.user, workout_exercise) %>">
+      <div>
         <h2><%= workout_exercise.name %></h2>
-        <h3><%= workout_exercise.sets.first.distance %></h3>
-        <h4><%= workout_exercise.sets.first.duration %></h4>
+        <% if workout_exercise.weights? %>
+          <h3><%= pluralize(workout_exercise.sets.count, "set") %></h3>
+        <% else %>
+          <h3><%= workout_exercise.sets.first.distance %> km</h3>
+        <% end %>
+      </div>
+      <% if workout_exercise.weights? %>
+        <img src="<%= asset_path 'icons/dumbbell.svg' %>"
+          alt="Dumbbell"
+          width="48"
+          height="48">
       <% else %>
-        <a href= <%= user_new_set_path(Current.user, workout_exercise) %>>
-          <h2><%= workout_exercise.name %></h2>
-        </a>
+        <img src="<%= asset_path 'icons/cardio.svg' %>"
+          alt="Cardio"
+          width="48"
+          height="48">
       <% end %>
-    <% end %>
+    </a>
   </article>
 <% end %>
+
