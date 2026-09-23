@@ -1,0 +1,40 @@
+<% content_for :title, 'Exercise Search' %>
+
+<% content_for :header_controls do %>
+  <div role=group>
+    <a href="<%= user_account_path %>" role="button">Account</a>
+  </div>
+<% end %>
+
+<div class=mt-m>
+</div>
+
+<form action="<%= user_search_exercises_path %>" id="search-form" method="post"></form>
+
+<field data-controller="search-field" id="message">
+  <input
+    type="search"
+    name="q"
+    data-search-field-target="query"
+    form="search-form"
+    data-action="input->search-field#search"
+  >
+  <button
+    form="search-form"
+    type="submit"
+    data-search-field-target="submit"
+    class="hidden"
+  >
+  </button>
+  <span data-search-field-target="text"></span>
+  <span data-search-field-target="value"></span>
+  <span data-search-field-target="type"></span>
+</field>
+
+<div
+  id="search_results"
+  data-controller="search-results"
+  data-search-results-search-field-outlet="#message"
+  data-search-results-target="container"
+>
+</div>

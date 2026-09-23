@@ -6,14 +6,6 @@ Rails.application.routes.draw do
       get '', action: :index, as: :home
     end
 
-    # controller :notes do
-    #   get    'notes',          action: :index,            as: :notes
-    #   get    'notes/new',      action: :new,              as: :new_note
-    #   post   'notes',          action: :create,           as: :notes_create
-    #   delete 'notes',          action: :destroy_multiple, as: :notes_destroy_multiple
-    #   get    'notes/:id',      action: :edit,             as: :note
-    # end
-
     controller :account do
       get    'account',           action: :index,            as: :account
       get    'account/new',       action: :new,              as: :new_account
@@ -26,17 +18,28 @@ Rails.application.routes.draw do
       delete 'account',           action: :destroy,          as: :account_destroy
     end
 
-    controller :uploads do
-      get 'uploads/:filename.png', action: :show, as: :upload
-    end
-
     controller :workouts do
       get    'workouts',          action: :index,   as: :workouts
       post   'workouts',          action: :create,  as: :create_workout
       patch  'workouts/:id',      action: :update,  as: :update_workout
-      # delete 'workouts/:id',      action: :destroy, as: :destroy_workout
-      delete 'workouts',          action: :destroy_multiple, as: :workouts_destroy_multiple
-      # get    'workouts/:id',      action: :edit,             as: :workout
+      delete 'workouts',          action: :destroy_multiple, as: :destroy_workouts
+    end
+
+    controller :exercises do
+      get    'exercises',          action: :index,            as: :exercises
+      get    'exercises/new',      action: :new,              as: :new_exercise
+
+
+      # Search 
+      get  'exercises/search',     action: :search_test,      as: :exercise_search_test
+      post 'exercises/search',     action: :search,           as: :search_exercises
+
+      get    'exercises/:id',      action: :edit,             as: :exercise
+      post   'exercises',          action: :create,           as: :create_exercise
+      patch  'exercises/:id',      action: :update,           as: :update_exercise
+      delete 'exercises/:id',      action: :destroy,          as: :destroy_exercise
+      delete 'exercises',          action: :destroy_multiple, as: :destroy_exercises
+
     end
 
     controller :workout_exercises do
@@ -56,10 +59,9 @@ Rails.application.routes.draw do
   end
 
   # Needs to be moved under user_id scope
-  controller :settings do
-    get  'settings',        action: :index
-  end
-
+  # controller :settings do
+  #   get  'settings',        action: :index
+  # end
 
   controller :auth do
     get  'auth',            action: :index,     as: :auth

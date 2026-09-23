@@ -1,0 +1,45 @@
+<% content_for :title, 'Exercises' %>
+
+<style>
+  p {
+    text-align: center;
+  }
+  article {
+    a {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 2rem;
+      align-items: center;
+
+      h2 {
+        color: color-mix(in srgb, var(--color-primary), black 30%);
+        font-size: xx-large;
+      }
+      h3 {
+        font-size: large;
+        color: grey;
+      }
+    }
+  }
+</style>
+
+<% content_for :header_controls do %>
+  <div role=group>
+    <a href="<%= user_account_path %>" role="button">Account</a>
+    <a href="<%= user_new_exercise_path %>" role="button">New</a>
+  </div>
+<% end %>
+
+<% @exercises.each do |exercise| %>
+  <article class="pill">
+    <a href="<%= user_exercise_path(Current.user, exercise) %>">
+      <h2>
+        <h2><%= exercise.name %></h2>
+      </h2>
+      <h3>
+        <%= exercise.exercise_type %>
+      </h3>
+    </a>
+  </article>
+<% end %>

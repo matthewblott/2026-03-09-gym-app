@@ -1,0 +1,14 @@
+<% items.each do |key, item| %>
+  <div>
+    <a data-action="search-results#select" href="#">
+      <input type="hidden" id="item_id" value="<%= key %>">
+      <input type="hidden" id="item_type" value="<%= item.exercise_type %>">
+      <% if defined? q %>
+        <%= highlight(item.name, q) %>
+      <% else %>
+        <%= item %>
+      <% end %>
+    </a>
+  </div>
+<% end %>
+

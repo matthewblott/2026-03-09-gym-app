@@ -3,7 +3,8 @@ class WorkoutExercisesController < ApplicationController
 
   def index
     @workout_id = params[:workout_id]
-    @workout_exercises = WorkoutExercise.with_averages.where(workout_id: @workout_id)
+    # @workout_exercises = WorkoutExercise.with_averages.where(workout_id: @workout_id)
+    @workout_exercises = WorkoutExercise.where(workout_id: @workout_id)
   end
 
   def new

@@ -1,0 +1,39 @@
+<form method=post id=exercise-form>
+  <input type=hidden name=authenticity_token value= <%= form_authenticity_token %>>
+  <fieldset>
+    <div>
+      <input
+        form="exercise-form"
+        id="name"
+        name=exercise[name]
+        value="<%= exercise.name %>"
+        placeholder="Exercise name"
+        aria-label="Exercise name"
+        required
+      >
+    </div>
+    <div role="radiogroup">
+      <label>
+        <input
+          form="exercise-form"
+          type="radio"
+          name=exercise[exercise_type]
+          value="cardio"
+          required
+          <% if exercise.exercise_type == 'cardio' %>checked<% end %>
+        >
+        Cardio
+      </label>
+      <label>
+        <input
+          form="exercise-form"
+          type="radio"
+          name="exercise[exercise_type]"
+          value="weights"
+          <% if exercise.exercise_type == 'weights' %>checked<% end %>
+        >
+        Weights
+      </label>
+    </div>
+  </fieldset>
+</form>

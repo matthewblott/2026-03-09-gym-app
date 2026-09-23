@@ -1,26 +1,30 @@
 class WorkoutExercise < ApplicationRecord
   belongs_to :workout
+  belongs_to :exercise
+
   has_many :weight_sets, dependent: :destroy
   has_many :cardio_sets, dependent: :destroy
 
-  enum :exercise_type, { weights: 'weights', cardio: 'cardio' }
+  validates :exercise_id, uniqueness: { scope: :workout_id, message: "is already in this workout" }
 
-  validates :name, presence: true
-  validates :exercise_type, presence: true
+  # enum :exercise_type, { weights: 'weights', cardio: 'cardio' }
+  #
+  # validates :name, presence: true
+  # validates :exercise_type, presence: true
+  #
+  # def sets
+  #   weights? ? weight_sets : cardio_sets
+  # end
 
-  def sets
-    weights? ? weight_sets : cardio_sets
-  end
-
-  scope :with_averages, lambda {
-    exercises   = arel_table
-    weight_sets = WeightSet.arel_table
-
-    avg_reps   = weight_sets[:reps].average.as('avg_reps')
-    avg_weight = weight_sets[:weight].average.as('avg_weight')
-
-    left_joins(:weight_sets)
-      .select(exercises[Arel.star], avg_reps, avg_weight)
-      .group(exercises[:id])
-  }
+  # scope :with_averages, lambda {
+  #   exercises   = arel_table
+  #   weight_sets = WeightSet.arel_table
+  #
+  #   avg_reps   = weight_sets[:reps].average.as('avg_reps')
+  #   avg_weight = weight_sets[:weight].average.as('avg_weight')
+  #
+  #   left_joins(:weight_sets)
+  #     .select(exercises[Arel.star], avg_reps, avg_weight)
+  #     .group(exercises[:id])
+  # }
 end

@@ -1,0 +1,16 @@
+<% content_for :title, 'Edit Exercise' %>
+
+<% content_for :header_controls do %>
+  <div role=group>
+    <a href= <%= user_exercises_path %> role=button>Exercises</a>
+    <button form="exercise-form" formaction="<%= user_update_exercise_path %>">Save</button>
+  </div>
+<% end %>
+
+<input type="hidden" name="_method" value="patch" form="exercise-form">
+
+<div class=mt-m>
+</div>
+
+<%= render 'form', exercise: @exercise %>
+
