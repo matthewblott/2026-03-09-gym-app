@@ -16,16 +16,18 @@ class WorkoutExercisesController < ApplicationController
 
   def create
     @workout_exercise = WorkoutExercise.new(workout_exercise_params)
+    
+    # debugger
 
-    if @workout_exercise.save
-      if @workout_exercise.weights?
-        redirect_to user_sets_path(Current.user, @workout_exercise)
-      else
-        redirect_to user_new_set_path(Current.user, @workout_exercise)
-      end
-    else
-      redirect_to user_workout_exercises_path(Current.user, workout_id: @workout_id), status: :unprocessable_entity
-    end
+    # if @workout_exercise.save
+    #   if @workout_exercise.weights?
+    #     redirect_to user_sets_path(Current.user, @workout_exercise)
+    #   else
+        # redirect_to user_new_set_path(Current.user, @workout_exercise)
+    #   end
+    # else
+    #   redirect_to user_workout_exercises_path(Current.user, workout_id: @workout_id), status: :unprocessable_entity
+    # end
   end
 
   def destroy
@@ -42,6 +44,6 @@ class WorkoutExercisesController < ApplicationController
   end
 
   def workout_exercise_params
-    params.expect(workout_exercise: %i[name exercise_type workout_id])
+    params.expect(workout_exercise: %i[name exercise_type exercise_id workout_id])
   end
 end

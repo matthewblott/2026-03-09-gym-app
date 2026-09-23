@@ -42,6 +42,17 @@ class User < AuthRecord
 
   def create_tenant
     Apartment::Tenant.create(id.to_s)
+    seed_tenant
+  end
+
+  def seed_tenant
+    Apartment::Tenant.switch(id.to_s) do
+      Exercise.create(name: 'Running', exercise_type: 'cardio')
+      Exercise.create(name: 'Swimming', exercise_type: 'cardio')
+      Exercise.create(name: 'Bench Press', exercise_type: 'weights')
+      Exercise.create(name: 'Squats', exercise_type: 'weights')
+      Exercise.create(name: 'Arm Curls', exercise_type: 'weights')
+    end
   end
 
   def drop_tenant

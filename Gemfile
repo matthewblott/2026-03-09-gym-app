@@ -17,7 +17,8 @@ gem 'stimulus-rails', '~> 1.3'
 gem 'turbo-rails', '~> 2.0'
 
 group :development, :test do
-  gem 'debug', platforms: %i[ mri ], require: 'debug/prelude'
+  # gem 'debug', platforms: %i[ mri ], require: 'debug/prelude'
+  gem 'debug'
 end
 
 

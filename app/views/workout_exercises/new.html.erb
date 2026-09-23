@@ -1,47 +1,74 @@
 <% content_for :title, 'New Exercise' %>
 
 <% content_for :header_controls do %>
-  <form action= <%= user_create_workout_exercise_path(Current.user, workout_id: @workout_id) %> method=post id=workout-exercise-form>
-    <input type=hidden name=authenticity_token value= <%= form_authenticity_token %>>
-    <input type=hidden name=workout_exercise[workout_id] value= <%= @workout_id %>>
+  <form
+    id="workout-exercise-form"
+    method="post"
+    action="<%= user_create_workout_exercise_path(Current.user, workout_id: @workout_id) %>"
+  >
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="workout_exercise[workout_id]" value="<%= @workout_id %>">
   </form>
-
   <div role=group>
-    <a href= <%= user_workout_exercises_path(Current.user, workout_id: @workout_id) %> role=button>Exercises</a>
-    <button form=workout-exercise-form>Save</button>
+    <a href="<%= user_workout_exercises_path(Current.user, workout_id: @workout_id) %>" role="button">Exercises</a>
+    <button form="workout-exercise-form">Save</button>
   </div>
 <% end %>
 
-<div class=mt-m>
+<div class="mt-m">
 </div>
 
-<fieldset>
+<form action="<%= user_search_exercises_path %>" id="search-form" method="post"></form>
+
+<fieldset data-controller="search-field mirror-field" id="message">
   <div>
     <input
-      type=text
-      form=workout-exercise-form
-      id=name
-      name=workout_exercise[name]
-      placeholder=Exercise name
-      aria-label=Exercise name
-      list=exercise-names
-      required
+      type="search"
+      name="q"
+      placeholder="Search or add new"
+      data-search-field-target="query"
+      form="search-form"
+      data-mirror-field-target="source"
+      data-action="input->search-field#search input->mirror-field#sync"
     >
-    <datalist id=exercise-names>
-      <option value=Running>
-      <option value=Cycling>
-      <option value=Swimming>
-      <option value=Bench Press>
-      <option value=Squats>
-    </datalist>
+    <button
+      form="search-form"
+      type="submit"
+      data-search-field-target="submit"
+      class="hidden"
+    >
+    </button>
+    <input
+      type="hidden"
+      placeholder="name"
+      form="workout-exercise-form"
+      name="workout_exercise[name]"
+      data-search-field-target="text"
+      data-mirror-field-target="hidden"
+    >
+    <input
+      type="hidden"
+      placeholder="id"
+      form="workout-exercise-form"
+      name="workout_exercise[exercise_id]"
+      data-search-field-target="value"
+    >
   </div>
-  <div role=radiogroup>
+  <div
+    id="search_results"
+    data-controller="search-results"
+    data-search-results-search-field-outlet="#message"
+    data-search-results-target="container"
+  >
+  </div>
+  <div role="radiogroup">
     <label>
       <input
         form=workout-exercise-form
-        type=radio
-        name=workout_exercise[exercise_type]
-        value=cardio
+        type="radio"
+        name="workout_exercise[exercise_type]"
+        data-search-field-target="cardio"
+        value="cardio"
         required
       >
       Cardio
@@ -49,9 +76,10 @@
     <label>
       <input
         form=workout-exercise-form
-        type=radio
-        name=workout_exercise[exercise_type]
-        value=weights
+        type="radio"
+        name="workout_exercise[exercise_type]"
+        data-search-field-target="weights"
+        value="weights"
       >
       Weights
     </label>

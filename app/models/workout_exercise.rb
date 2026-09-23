@@ -5,7 +5,10 @@ class WorkoutExercise < ApplicationRecord
   has_many :weight_sets, dependent: :destroy
   has_many :cardio_sets, dependent: :destroy
 
-  validates :exercise_id, uniqueness: { scope: :workout_id, message: "is already in this workout" }
+  # validates :exercise_id, uniqueness: { scope: :workout_id, message: "is already in this workout" }
+
+  attr_accessor :name
+  attr_accessor :exercise_type
 
   # enum :exercise_type, { weights: 'weights', cardio: 'cardio' }
   #
