@@ -7,10 +7,12 @@ export default class extends Controller {
   select(event) {
     event.preventDefault()
 
+    const link = event.currentTarget
+
     const item = {
-      text: event.target.innerText,
-      value: event.target.querySelector('#item_id').value,
-      type: event.target.querySelector('#item_type').value
+      text: link.innerText,
+      value: link.querySelector('#item_id').value,
+      type: link.querySelector('#item_type').value
     }
 
     this.searchFieldOutlet.display(item)

@@ -53,7 +53,6 @@
 
 <% @workouts.each_with_index do |workout, i| %>
   <article class="pill">
-
     <a href= <%= user_workout_exercises_path(Current.user, workout_id: workout.id) %>>
       <div>
         <h2>
@@ -70,5 +69,4 @@
         height="48">
     </a>
   </article>
-
 <% end %>

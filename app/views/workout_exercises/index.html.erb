@@ -37,16 +37,16 @@
 
 <% @workout_exercises.each do |workout_exercise| %>
   <article class="pill">
-    <a href="<%= user_sets_path(Current.user, workout_exercise) %>">
+    <a href="<%= user_sets_path(Current.user, workout_exercise_id: workout_exercise) %>">
       <div>
-        <h2><%= workout_exercise.name %></h2>
-        <% if workout_exercise.weights? %>
-          <h3><%= pluralize(workout_exercise.sets.count, "set") %></h3>
+        <h2><%= workout_exercise.exercise.name %></h2>
+        <% if workout_exercise.exercise.weights? %>
+          <h3><%= pluralize(workout_exercise.weight_sets.count, "set") %></h3>
         <% else %>
-          <h3><%= workout_exercise.sets.first.distance %> km</h3>
+          <h3><%= workout_exercise.cardio_sets.sum(:distance) %> km</h3>
         <% end %>
       </div>
-      <% if workout_exercise.weights? %>
+      <% if workout_exercise.exercise.weights? %>
         <img src="<%= asset_path 'icons/dumbbell.svg' %>"
           alt="Dumbbell"
           width="48"

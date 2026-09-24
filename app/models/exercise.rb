@@ -5,5 +5,13 @@ class Exercise < ApplicationRecord
 
   enum :exercise_type, { weights: 'weights', cardio: 'cardio' }
 
+  def weights?
+    exercise_type == 'weights'
+  end
+
+  def cardio?
+    exercise_type == 'cardio'
+  end
+
 end
 

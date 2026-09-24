@@ -3,7 +3,6 @@ class WorkoutExercisesController < ApplicationController
 
   def index
     @workout_id = params[:workout_id]
-    # @workout_exercises = WorkoutExercise.with_averages.where(workout_id: @workout_id)
     @workout_exercises = WorkoutExercise.where(workout_id: @workout_id)
   end
 
@@ -12,22 +11,24 @@ class WorkoutExercisesController < ApplicationController
     @workout_exercise = WorkoutExercise.new
   end
 
-  def show; end
-
   def create
     @workout_exercise = WorkoutExercise.new(workout_exercise_params)
     
-    # debugger
+    exercise =
+      if @workout_exercise.exercise_id.present?
+        Exercise.find(@workout_exercise.exercise_id)
+      else
+        Exercise.create(name: @workout_exercise.name, exercise_type: @workout_exercise.exercise_type)
+      end
 
-    # if @workout_exercise.save
-    #   if @workout_exercise.weights?
-    #     redirect_to user_sets_path(Current.user, @workout_exercise)
-    #   else
-        # redirect_to user_new_set_path(Current.user, @workout_exercise)
-    #   end
-    # else
-    #   redirect_to user_workout_exercises_path(Current.user, workout_id: @workout_id), status: :unprocessable_entity
-    # end
+    @workout_exercise.exercise_id = exercise.id
+    
+    if @workout_exercise.save
+      redirect_to user_new_set_path(Current.user, workout_exercise_id: @workout_exercise)
+    else
+      redirect_to user_workout_exercises_path(Current.user, workout_id: @workout_id), status: :unprocessable_entity
+    end
+
   end
 
   def destroy

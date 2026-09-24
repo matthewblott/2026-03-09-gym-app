@@ -28,18 +28,12 @@ Rails.application.routes.draw do
     controller :exercises do
       get    'exercises',          action: :index,            as: :exercises
       get    'exercises/new',      action: :new,              as: :new_exercise
-
-
-      # Search 
-      get  'exercises/search',     action: :search_test,      as: :exercise_search_test
-      post 'exercises/search',     action: :search,           as: :search_exercises
-
+      post   'exercises/search',   action: :search,           as: :search_exercises
       get    'exercises/:id',      action: :edit,             as: :exercise
       post   'exercises',          action: :create,           as: :create_exercise
       patch  'exercises/:id',      action: :update,           as: :update_exercise
       delete 'exercises/:id',      action: :destroy,          as: :destroy_exercise
       delete 'exercises',          action: :destroy_multiple, as: :destroy_exercises
-
     end
 
     controller :workout_exercises do
@@ -50,18 +44,13 @@ Rails.application.routes.draw do
     end
 
     controller :sets do
-      get    'workout-exercises/:exercise_id/sets',       action: :index,   as: :sets
-      get    'workout-exercises/:exercise_id/sets/new',   action: :new,     as: :new_set
-      post   'workout-exercises/:exercise_id/sets',       action: :create,  as: :create_set
-      delete 'workout-exercises/:exercise_id/sets/:id',   action: :destroy, as: :destroy_set
+      get    'sets',       action: :index,   as: :sets
+      get    'sets/new',   action: :new,     as: :new_set
+      post   'sets',       action: :create,  as: :create_set
+      delete 'sets/:id',   action: :destroy, as: :destroy_set
     end
 
   end
-
-  # Needs to be moved under user_id scope
-  # controller :settings do
-  #   get  'settings',        action: :index
-  # end
 
   controller :auth do
     get  'auth',            action: :index,     as: :auth

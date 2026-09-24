@@ -1,68 +1,198 @@
 <% content_for :title, 'New Set' %>
 
+<style>
+  label {
+    span {
+      margin-left: 0.5rem;
+    }
+    input, div {
+      margin-top: 0.5rem;
+    }
+  }
+
+  .input-group {
+    display: flex;
+    align-items: baseline;
+    border: 1px solid #ccc;
+    border-radius: 999em;
+    overflow: hidden; /* so children respect the rounded corners */
+    padding: 0 8px; /* so the colons don't touch the outer edge */
+
+    &:focus-within {
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 2px rgba(74,144,226,0.2);
+    }
+
+    input {
+      border: none;
+      outline: none;
+      padding: 0;
+      padding-bottom: 0.4rem; 
+      background: transparent;
+      font-size: x-large;
+
+      &:focus {
+        background: #f0f6ff;
+      }
+
+      &::placeholder {
+        color: #bbb;
+      }
+
+      &:first-child {
+        width: 2.5rem;
+        text-align: right;
+        padding: 0;
+        margin: 0;
+      }
+      &:nth-of-type(2) {
+        width: 2.25rem;
+        text-align: right;
+        padding: 0;
+        margin: 0;
+      }
+      &:last-child {
+        width: 2.5rem;
+        padding-left: 0.5rem;
+        text-align: left;
+      }
+    }
+
+    span {
+      /* font-size: x-large; */
+      color: #888;
+      &:first-child {
+        padding: 0;
+        margin: 0;
+      }
+      &:last-child {
+        padding: 0;
+        margin: 0;
+      }
+    }
+  }
+
+  /* Remove arrows from input number fields */
+  /* Chrome, Edge, Safari */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type="number"] {
+    appearance: textfield;
+  }
+
+</style>
+
 <% content_for :header_controls do %>
-  <form action= <%= user_create_set_path(Current.user, exercise_id: @workout_exercise.id) %> method=post id=set-form>
-    <input type=hidden name=authenticity_token value= <%= form_authenticity_token %>>
-    <input type=hidden name=weight_set[exercise_id] value= <%= @workout_exercise.id %>>
+  <form action="<%= user_create_set_path(Current.user, workout_exercise_id: @workout_exercise.id) %>" method="post" id="set-form">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" name="<%= @workout_exercise.exercise.weights? ? "weight" : "cardio" %>_set[workout_exercise_id]" value="<%= @workout_exercise.id %>">
   </form>
 
-  <div role=group>
-    <% if @workout_exercise.weights? %>
-      <a href= <%= user_sets_path(Current.user, exercise_id: @workout_exercise.id) %> role=button>Sets</a>
+  <div role="group">
+    <% if @workout_exercise.exercise.weights? %>
+      <a href="<%= user_sets_path(Current.user, workout_exercise_id: @workout_exercise.id) %>" role="button">Sets</a>
     <% else %>
-      <a href= <%= user_workout_exercises_path(Current.user, workout_id: @workout_exercise.workout_id) %> role=button>Exercises</a>
+      <a href="<%= user_workout_exercises_path(Current.user, workout_id: @workout_exercise.workout_id) %>" role="button">Exercises</a>
     <% end %>
     <button form=set-form>Save</button>
   </div>
 <% end %>
 
-<div class=mt-m>
+<div class="mt-m">
 </div>
 
 <fieldset>
-  <% if @workout_exercise.weights? %>
+  <% if @workout_exercise.exercise.weights? %>
     <div>
-      <input
-        type=number
-        form=set-form
-        name=weight_set[weight]
-        placeholder=Weight in KG
-        aria-label=Weight in KG
-        required
-      >
+      <label>
+        Weight
+        <input
+          type="number"
+          form="set-form"
+          name="weight_set[weight]"
+          placeholder="Weight in KG"
+          aria-label="Weight in KG"
+          required
+        >
+      </label>
     </div>
     <div>
-      <input
-        type=number
-        form=set-form
-        name=weight_set[reps]
-        placeholder=Number of Reps
-        aria-label=Number of Reps
-        required
-      >
+      <label>
+        Number of Reps
+        <input
+          type="number"
+          form="set-form"
+          name="weight_set[reps]"
+          placeholder="Number of Reps"
+          aria-label="Number of Reps"
+          required
+        >
+      </label>
     </div>
   <% else %>
     <div>
-      <input
-        type=number
-        step=1 min=0
-        form=set-form
-        name=cardio_set[distance]
-        placeholder=Distance in meters
-        aria-label=Distance in meters
-        required
-      >
+      <label>
+        <span>Distance in meters</span>
+        <input
+          type="number"
+          step="1" min="0"
+          form="set-form"
+          name="cardio_set[distance]"
+          placeholder="Distance in meters"
+          aria-label="Distance in meters"
+          required
+        >
+      </label>
     </div>
     <div>
-      <input
-        type=time
-        step=1
-        form=set-form
-        name=cardio_set[duration]
-        placeholder=Time in minutes
-        aria-label=Time in minutes and seconds
-        required
-      >
+      <label>
+        <span>Duration</span>
+        <div class="input-group">
+          <input
+            name="cardio_set[hours]"
+            form="set-form"
+            inputmode="numeric"
+            minlength="2"
+            maxlength="2"
+            pattern={"[0-9]{1,2}"}
+            placeholder="HH"
+            value="00" required>
+          <span>:</span>
+          <input
+            name="cardio_set[minutes]"
+            form="set-form"
+            inputmode="numeric"
+            minlength="2"
+            maxlength="2"
+            pattern={"[0-9]{1,2}"}
+            placeholder="mm"
+            required>
+          <span>:</span>
+          <input
+            name="cardio_set[seconds]"
+            form="set-form"
+            inputmode="numeric"
+            minlength="2"
+            maxlength="2"
+            pattern={"[0-9]{1,2}"}
+            placeholder="ss"
+            required>
+        </div>
+      </label>
+      <%# <input %>
+      <%#   type="time" %>
+      <%#   step="1" %>
+      <%#   form="set-form" %>
+      <%#   name="cardio_set[duration]" %>
+      <%#   placeholder="Time in minutes" %>
+      <%#   aria-label="Time in minutes and seconds" %>
+      <%#   required %>
+      <%# > %>
     </div>
   <% end %>
 </fieldset>

@@ -1,4 +1,4 @@
-<% content_for :title, @workout_exercise.name + ' Sets' %>
+<% content_for :title, @workout_exercise.exercise.name + ' Sets' %>
 
 <style>
 
@@ -37,7 +37,7 @@
 <% content_for :header_controls do %>
   <div role=group>
     <a href= <%= user_workout_exercises_path(Current.user, workout_id: @workout_exercise.workout_id) %> role=button>Exercises</a>
-    <a href= <%= user_new_set_path(Current.user, exercise_id: @workout_exercise.id) %> role=button>New</a>
+    <a href= <%= user_new_set_path(Current.user, workout_exercise_id: @workout_exercise.id) %> role=button>New</a>
   </div>
 <% end %>
 
@@ -45,22 +45,22 @@
   <article class="pill">
     <p>
       <span>
-        <% if @workout_exercise.weights? %>
+        <% if @workout_exercise.exercise.weights? %>
           <%= set.reps %>
         <% else %>
-          <%= set.distance %>
+          <%= set.distance %> meters
         <% end %>
       </span>
       <span>
-        <% if @workout_exercise.weights? %>
+        <% if @workout_exercise.exercise.weights? %>
           x
         <% else %>
           in
         <% end %>
       </span>
       <span>
-        <% if @workout_exercise.weights? %>
-          <%= set.weight %>
+        <% if @workout_exercise.exercise.weights? %>
+          <%= set.weight %> kg
         <% else %>
           <%= set.duration %>
         <% end %>
