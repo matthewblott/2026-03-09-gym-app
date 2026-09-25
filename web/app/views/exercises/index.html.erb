@@ -26,8 +26,8 @@
 
 <% content_for :header_controls do %>
   <div role=group>
-    <a href="<%= user_account_path %>" role="button">Account</a>
-    <a href="<%= user_new_exercise_path %>" role="button">New</a>
+    <a href="<%= user_settings_path %>" role="button">Settings</a>
+    <a href="<%= user_new_exercise_path %>" role="button" data-controller="bridge--button">New</a>
   </div>
 <% end %>
 

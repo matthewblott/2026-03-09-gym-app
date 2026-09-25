@@ -1,0 +1,19 @@
+<% content_for :title, "Settings" %>
+
+<style>
+  p {
+    text-align: center;
+  }
+</style>
+
+<% content_for :header_controls do %>
+  <div role="group">
+    <a href="<%= user_home_path %>" role="button">Home</a>
+  </div>
+<% end %>
+
+<p>
+  Add more exercises here.
+</p>
+
+<a href="<%= user_exercises_path %>" role="button" class="outline">Exercises</a>

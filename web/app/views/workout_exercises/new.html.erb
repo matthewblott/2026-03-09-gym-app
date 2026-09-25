@@ -1,5 +1,41 @@
 <% content_for :title, 'New Exercise' %>
 
+<style>
+  label {
+    span {
+      margin-left: 0.5rem;
+    }
+    input, select {
+      margin-top: 0.5rem;
+    }
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  #search_results {
+    padding: 0;
+    margin: 0;
+  }
+
+  [role="radiogroup"] { 
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+</style>
+
 <% content_for :header_controls do %>
   <form
     id="workout-exercise-form"
@@ -10,8 +46,8 @@
     <input type="hidden" name="workout_exercise[workout_id]" value="<%= @workout_id %>">
   </form>
   <div role=group>
-    <a href="<%= user_workout_exercises_path(Current.user, workout_id: @workout_id) %>" role="button">Exercises</a>
-    <button form="workout-exercise-form">Save</button>
+    <a href="<%= user_workout_exercises_path(Current.user, workout_id: @workout_id) %>" role="button" data-controller="bridge--button">Exercises</a>
+    <button form="workout-exercise-form" data-controller="bridge--button">Save</button>
   </div>
 <% end %>
 
@@ -22,37 +58,42 @@
 
 <fieldset data-controller="search-field mirror-field" id="message">
   <div>
-    <input
-      type="search"
-      name="q"
-      placeholder="Search or add new"
-      data-search-field-target="query"
-      form="search-form"
-      data-mirror-field-target="source"
-      data-action="input->search-field#search input->mirror-field#sync"
-    >
-    <button
-      form="search-form"
-      type="submit"
-      data-search-field-target="submit"
-      class="hidden"
-    >
-    </button>
-    <input
-      type="hidden"
-      placeholder="name"
-      form="workout-exercise-form"
-      name="workout_exercise[name]"
-      data-search-field-target="text"
-      data-mirror-field-target="hidden"
-    >
-    <input
-      type="hidden"
-      placeholder="id"
-      form="workout-exercise-form"
-      name="workout_exercise[exercise_id]"
-      data-search-field-target="value"
-    >
+    <label>
+      <span>Name</span>
+      <input
+        type="search"
+        name="q"
+        placeholder="Search or add new"
+        data-search-field-target="query"
+        form="search-form"
+        data-mirror-field-target="source"
+        data-action="input->search-field#search input->mirror-field#sync"
+        required
+      >
+      <button
+        form="search-form"
+        type="submit"
+        data-search-field-target="submit"
+        class="hidden"
+      >
+      </button>
+      <input
+        placeholder="name"
+        form="workout-exercise-form"
+        name="workout_exercise[name]"
+        data-search-field-target="text"
+        data-mirror-field-target="hidden"
+        class="visually-hidden"
+        required
+      >
+      <input
+        type="hidden"
+        placeholder="id"
+        form="workout-exercise-form"
+        name="workout_exercise[exercise_id]"
+        data-search-field-target="value"
+      >
+    </label>
   </div>
   <div
     id="search_results"
@@ -62,6 +103,7 @@
   >
   </div>
   <div role="radiogroup">
+    <span>Exercise Type</span>
     <label>
       <input
         form=workout-exercise-form

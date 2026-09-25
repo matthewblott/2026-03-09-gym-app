@@ -99,7 +99,7 @@
     <% else %>
       <a href="<%= user_workout_exercises_path(Current.user, workout_id: @workout_exercise.workout_id) %>" role="button">Exercises</a>
     <% end %>
-    <button form=set-form>Save</button>
+    <button form="set-form" data-controller="bridge--button">Save</button>
   </div>
 <% end %>
 

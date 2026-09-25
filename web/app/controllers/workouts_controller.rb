@@ -13,7 +13,7 @@ class WorkoutsController < ApplicationController
   def create
     @workout = Workout.new(workout_params)
     if @workout.save
-      redirect_to user_workout_exercises_path(Current.user, workout_id: @workout.id)
+      redirect_to user_new_workout_exercise_path(Current.user, workout_id: @workout.id)
     else
       render :new, status: :unprocessable_entity
     end

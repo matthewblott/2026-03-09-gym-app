@@ -36,8 +36,8 @@
 
 <% content_for :header_controls do %>
   <div role=group>
-    <a href= <%= user_workout_exercises_path(Current.user, workout_id: @workout_exercise.workout_id) %> role=button>Exercises</a>
-    <a href= <%= user_new_set_path(Current.user, workout_exercise_id: @workout_exercise.id) %> role=button>New</a>
+    <a href="<%= user_workout_exercises_path(Current.user, workout_id: @workout_exercise.workout_id) %>" role="button" data-controller="bridge--button">Exercises</a>
+    <a href="<%= user_new_set_path(Current.user, workout_exercise_id: @workout_exercise.id) %>" role="button" data-controller="bridge--button">New</a>
   </div>
 <% end %>
 

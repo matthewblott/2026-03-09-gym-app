@@ -8,6 +8,13 @@
     }
   }
 
+  [role="radiogroup"] { 
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
 </style>
 
 <form method=post id=exercise-form>
@@ -21,7 +28,7 @@
           id="name"
           name=exercise[name]
           value="<%= exercise.name %>"
-          placeholder="Exercise name"
+          placeholder="Bench press"
           aria-label="Exercise name"
           required
         >

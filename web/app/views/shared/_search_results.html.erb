@@ -1,14 +1,39 @@
-<% items.each do |key, item| %>
-  <div>
-    <a data-action="search-results#select" href="#">
-      <input type="hidden" id="item_id" value="<%= key %>">
-      <input type="hidden" id="item_type" value="<%= item.exercise_type %>">
-      <% if defined? q %>
-        <%= highlight(item.name, q) %>
-      <% else %>
-        <%= item %>
-      <% end %>
-    </a>
-  </div>
-<% end %>
+<style>
+  ul {
+    border-radius: var(--border-radius-pill);
+    padding: 0.5rem 0.4rem;
 
+    border: 0.05rem solid darkgray;
+    li {
+      padding: 0 0.6rem;
+
+      &:hover {
+        background-color: lightyellow; 
+      }
+      &.new-exercise {
+        font-style: italic;
+        margin-left: 0.5rem;
+      }
+    }
+  }
+
+</style>
+
+<% unless items.empty? %>
+
+  <ul>
+    <% items.each do |key, item| %>
+      <li>
+        <a data-action="search-results#select" href="#">
+          <input type="hidden" id="item_id" value="<%= key %>">
+          <input type="hidden" id="item_type" value="<%= item.exercise_type %>">
+          <% if defined? q %>
+            <%= highlight(item.name, q) %> (<%= item.exercise_type %>)
+          <% else %>
+            <%= item %> (<%= item.exercise_type %>)
+          <% end %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

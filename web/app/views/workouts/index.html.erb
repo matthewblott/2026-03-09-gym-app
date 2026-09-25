@@ -42,18 +42,18 @@
 <% content_for :header_controls do %>
   <div role=group>
     <a href="<%= user_home_path %>" role="button">Home</a>
-    <button form=workout-form>New</button>
+    <button form="workout-form" data-controller="bridge--button">New</button>
   </div>
 
-  <form action= <%= user_create_workout_path(Current.user) %> method=post id=workout-form>
-    <input type=hidden name=authenticity_token value= <%= form_authenticity_token %>>
-    <input type=hidden value= <%= Time.now.iso8601 %> name=workout[created_at]>
+  <form action="<%= user_create_workout_path(Current.user) %>" method="post" id="workout-form">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <input type="hidden" value="<%= Time.now.iso8601 %>" name="workout[created_at]">
   </form>
 <% end %>
 
 <% @workouts.each_with_index do |workout, i| %>
   <article class="pill">
-    <a href= <%= user_workout_exercises_path(Current.user, workout_id: workout.id) %>>
+    <a href="<%= user_workout_exercises_path(Current.user, workout_id: workout.id) %>">
       <div>
         <h2>
           <%= workout.created_at.strftime('%A') %>

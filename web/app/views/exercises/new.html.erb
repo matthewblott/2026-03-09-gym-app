@@ -3,7 +3,7 @@
 <% content_for :header_controls do %>
   <div role=group>
     <a href= <%= user_exercises_path %> role=button>Exercises</a>
-    <button form="exercise-form" formaction="<%= user_create_exercise_path %>">Save</button>
+    <button form="exercise-form" formaction="<%= user_create_exercise_path %>" data-controller="bridge--button">Save</button>
   </div>
 <% end %>
 
